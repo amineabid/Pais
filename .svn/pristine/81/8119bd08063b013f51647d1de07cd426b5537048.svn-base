@@ -1,0 +1,80 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Convention</mat-card-title>
+        <mat-card-subtitle>
+            <div [satPopoverAnchor]="p">
+                <app-input-dynamique *ngIf="showdata" 
+                [fields]="fildesConfig" 
+                (ifClickInput)='OpenHelpOnClick($event)'
+                (ifKeyUpInput)='OpenHelp($event)' 
+                (ifChangeInput)='OpenHelpOnCHange($event)'></app-input-dynamique>
+            </div>
+
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <sat-popover #p id="p" hasBackdrop xAlign="start" yAlign="start" verticalAlign="below" forceAlignment (opened)="showtablee($event)" >
+            <div  class="tabledataclass">
+                <mat-table #tableConv [dataSource]="convention.data" matSort>
+                    <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplayCnv">
+                        <mat-header-cell *matHeaderCellDef>
+                            {{getType(column).label}}
+                            <!-- {{column}} [attr.id]="row.index" -->
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element" (click)="showelement(element)">
+                            <!-- <div name="NCulmn" style="display: none;" >{{getType(column).name}}-&-</div> -->
+                            {{element[column]}}
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="columnsToDisplayCnv;sticky: true"></mat-header-row>
+                    <mat-row #row [ngStyle]="{'background-color': getColorfind(row) }" *matRowDef="let row; columns: columnsToDisplayCnv;">
+                    </mat-row>
+                </mat-table>
+            </div>
+        </sat-popover>
+    <!--   -->
+    <app-table-edting-with-component 
+     *ngIf="showTable"
+    [regConfig]="regConfig" 
+    [displayedColumns]="columnsToDisplay"
+    [initialDataa]="this.filterdata"
+    (ifChangeElement)='changeElemnt($event)'
+    (ifdeleteElement)='deleteElemnt($event)'
+    (ifCreateElement)='createElemnt($event)'
+    (ifRefrechData)='refrech_data_table($event)'
+    ></app-table-edting-with-component>
+</mat-card-content>
+<mat-card-actions align="end"  >
+    <button mat-flat-button style="color:white; background-color: red;" (click)="deleteAll()">
+        <span class="material-icons">
+            delete_sweep
+        </span>
+        <span>Supprimer</span>
+    </button>
+
+    <button mat-flat-button color="primary"  (click)="Reset()">
+        <span class="material-icons">
+            cancel_presentation
+        </span>
+        <span>Annuler</span>
+    </button>
+    
+    <button mat-flat-button style="color:white; background-color: #155724;" [disabled]="ValidationBtn" (click)="getallData()">
+        <span class="material-icons">
+            add_task
+        </span>
+        <span>Valider</span>
+    </button>
+</mat-card-actions>
+</mat-card>
+    <!-- <app-table-classique (valueChange)='displayCounter($event)'></app-table-classique> -->
+    <!-- <app-user-table></app-user-table> -->
+    <!-- <app-tablewithforms
+    *ngIf="showTable" 
+[regConfig]="regConfig" 
+[displayedColumns]="columnsToDisplay"
+[initialData]="this.filterdata"
+(ifChangeElement)='changeElemnt($event)'
+(ifdeleteElement)='deleteElemnt($event)'
+(ifCreateElement)='createElemnt($event)'
+    ></app-tablewithforms> -->

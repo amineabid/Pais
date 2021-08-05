@@ -1,0 +1,46 @@
+<div class="example-container"  >
+
+<!-- [class.example-is-mobile]="mobileQuery.matches"
+    <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button class="example-icon" (click)='onClickbtnMenu()'
+        aria-label="Example icon-button with menu icon">
+        <mat-icon>{{iconmenu}}</mat-icon>
+    </button>
+
+    <span>Paie</span>
+    <button mat-button class="example-button" aria-label="Example icon-button with heart icon">
+        Fiche
+    </button>
+    <span class="example-spacer"></span>
+    
+</mat-toolbar> -->
+
+
+    <app-header #header></app-header>
+
+    <app-sidebar [navItems]="navItems" color="#f5f5f5"></app-sidebar>
+    <mat-sidenav-container class="example-sidenav-container"  hasBackdrop="false" [style.marginLeft.px]="mobileQuery.matches ? 0 : 65"  [style.marginTop.px]="mobileQuery.matches ? 65 : 0">
+    <!-- [mode]="mobileQuery.matches ? 'over' : 'side'"  class="mat-drawer-opened" [fixedInViewport]="mobileQuery.matches" (opened)="events.push('open!')" (closed)="events.push('close!')" style="width: 200px;" (opened)="OpenSideNav($event)" (closed)="CloseSideNav($event)" -->
+
+        <mat-sidenav-content  >
+                    <!-- <div *ngIf="routerChanged" class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div> -->
+                    <router-outlet>
+                            
+                    </router-outlet>
+            <div class="spinner" *ngIf="routerChanged">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+        <app-footer></app-footer>
+        
+</div>
+
+
+

@@ -1,0 +1,194 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+// import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs'; 
+import { Convention } from './../model/convention';
+// import 'rxjs/add/operator/map';
+import { Config } from '../model/config';
+import { Ligne_conv } from '../model/ligne_conv';
+import { Validators } from '@angular/forms';
+import { IndemniteService } from './indemnite.service';
+import { Indemnite } from 'src/model/indemnite';
+@Injectable({
+  providedIn: 'root'
+})
+export class Ligne_convService {
+
+  private header = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': 'true' });
+  // 
+  private ip: string =null ;
+  private url:Config = Config.serverPath;
+  private baseUrl = Config.getLigne_conv;
+  public convention:Convention;
+  static listInd: Indemnite[] = [];
+  constructor(public http: HttpClient,public indiemnuiteService:IndemniteService) {
+    // this.ip = this.http.get("http://api.ipify.org/?format=json");
+    
+    this.indiemnuiteService.getIndemniteList().subscribe((indem: Indemnite[]) => {
+      Ligne_convService.listInd = indem;
+    });
+   }
+
+   async getLigneConvention(id: number): Promise<Observable<any>> {
+     return (await this.http.get<any>(`${this.baseUrl}` + '/getOne', { headers: this.header }));
+    
+  }
+
+  async createLigneConvention(conv: any): Promise<Observable<any>> {
+    return await this.http.post<any>(`${this.baseUrl}` + '/create', conv, { headers: this.header });
+  }
+
+  async updateLigneConvention(value: any, valuedetail: any): Promise<Observable<any>> {
+    let params = new HttpParams()
+      .set('lcnv', value)
+      .set('lconvDetail', valuedetail);
+    return await this.http.post<any>(`${this.baseUrl}` + '/update', params, { headers: this.header });
+  }
+
+  deleteLigneConvention(value: any): Observable<Ligne_conv> {
+    // let value: any;
+    return this.http.request<Ligne_conv>('delete', `${this.baseUrl}` + '/delete',  { body: value, responseType: 'json', headers: this.header });
+    //return this.http.delete<Convention>(`${this.baseUrl}` + '/convention/' + `${id}`, { responseType: 'json', headers: this.header });
+  }
+
+  getLigneConventionList(): Observable<any[]> {
+     return this.http.get<any[]>(`${this.baseUrl}` + '', { headers: this.header });
+  }
+  getReportLigneConventionList(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}` + '/report/pdf', { headers: this.header });
+  }
+  getReportLien(id1?: number,id2?:number): any {
+    if(id1!=undefined && id2!=undefined){
+      return `${this.baseUrl}` + '/report/pdf/'+id1+'/'+id2;
+    } else if (id1 != undefined && id2==undefined){
+      return `${this.baseUrl}` + '/report/pdf/' + id1 ;
+    }else{
+      return `${this.baseUrl}` + '/report/pdf';
+    }
+    
+  }
+
+  static filedLigneConvention() {
+    let fildesConfig = [];
+    interface IMyTable extends Ligne_conv { };
+    type MyTablePropsArray = Array<keyof IMyTable>;
+    const propsArrayy: MyTablePropsArray = Object.keys(new Ligne_conv()) as MyTablePropsArray;
+    propsArrayy.forEach(element => {
+      // console.log(element)
+      if (element == "ind_LCONV") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "Code",
+            inputType: "number",
+            name: element,
+            validations: [
+              {
+                name: "required",
+                validator: Validators.required,
+                message: "vide"
+              }
+            ],
+            column_show: true,
+            showpopover: true,
+            t: true,
+            table: [
+              {
+                displayedColumns: [
+                  {
+                    editing: false,
+                    columns: ['cod_IND', 'lib_IND', 'mt_IND'], //IndemniteService.filedIndemnite().map(x => x.name), 
+                    name: IndemniteService.filedIndemnite().map(x=>x.name),
+                    show: true
+                  },
+                ],
+                data: Ligne_convService.listInd
+              }
+            ],
+            width: "100px"
+          }
+        );
+      } else if (element == "ligne_LCONV") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "Ligne",
+            inputType: "number",
+            name: element,
+            validations: [
+              {
+                name: "required",
+                validator: Validators.required,
+                message: "vide"
+              }
+            ],
+            column_show: true,
+            showpopover: false,
+            t: false,
+            width: "100px"
+          }
+        );
+      } else if (element == "cod_LCONV") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: element,
+            inputType: "number",
+            name: element,
+            validations: [
+              {
+                name: "required",
+                validator: Validators.required,
+                message: "vide"
+              }
+            ],
+            column_show: false,
+            showpopover: false,
+            t: false,
+          }
+        );
+      } else if (element == "mt_LCONV") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "Montant",
+            inputType: "number",
+            name: element,
+            column_show: true,
+            showpopover: true,
+            validations: [
+              {
+                name: "required",
+                validator: Validators.required,
+                message: "vide"
+              }
+            ],
+            t: false,
+            width: "100px"
+          }
+        );
+      } else if (element == "lib_LCONV") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "Libellé",
+            inputType: "text",
+            name: element,
+            column_show: true,
+            showpopover: false,
+            validations: [
+              {
+                name: "required",
+                validator: Validators.required,
+                message: "vide"
+              }
+            ],
+            t: false,
+          }
+        );
+
+      }
+    })
+    return fildesConfig;
+  }
+}

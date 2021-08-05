@@ -1,0 +1,8 @@
+<app-table-edting-with-component 
+*ngIf="showTable" 
+[regConfig]="page_entet_ligne.tableLigne.regConfig" 
+[displayedColumns]="page_entet_ligne.tableLigne.ColumnToDisiplay"
+    [initialData]="page_entet_ligne.tableLigne.data" 
+    (ifChangeElement)='changeElemnt($event)' 
+    (ifdeleteElement)='deleteElemnt($event)'
+    (ifCreateElement)='createElemnt($event)'></app-table-edting-with-component>

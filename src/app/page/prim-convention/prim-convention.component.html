@@ -1,0 +1,225 @@
+
+<form [formGroup]="this.form">
+    
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card m-3">
+                    <h5 class="card-header">EnTete</h5>
+                    <div class="card-body">
+                        <div ngbRadioGroup class="btn-group btn-group-toggle" name="radioBasic">
+                            <label ngbButtonLabel class="btn btn-outline-info" [ngClass]="{'active': activemodifer}">
+                                <input type="radio" ngbButton name="options" id="modifier" disabled> Modifier
+                            </label>
+                            <label ngbButtonLabel class="btn btn-outline-info" [ngClass]="{'active': activeajouter}">
+                                <input ngbButton type="radio" name="options" id="ajouter" disabled> Ajouter
+                            </label>
+                        </div>
+                        <form [formGroup]="this.form.get('Entete')" (ngSubmit)="onSubmitEnTete()">
+                            <div class="form-row">
+                                <div class="form-group col-md" *ngFor="let field of this.fildesConfig;let i=index">
+                                    <label>{{field.label}}</label>
+                                    <input #input class="form-control" [formControlName]="field.name"
+                                        placeholder="{{field.label}}" name="{{field.name}}" type="{{field.inputType}}"
+                                        [ngClass]="{ 'is-invalid': submitted && this.form.get('Entete').get(field.name).errors }"
+                                        (keyup)='OpenHelp($event)' (change)='OpenHelpOnCHange($event)'
+                                        (click)='OpenHelpOnClick($event)' [autofocus]="i===0" autocomplete="off">
+                                    <!-- <div *ngIf="gettype(column).t==true" class="input-group-append">
+                                                                            <span class="input-group-text" (click)="onClickInput(element,column)">^</span>
+                                                                        </div> -->
+                                    <ng-container *ngFor="let validation of field.validations;">
+                                        <div *ngIf="submitted && this.form.get('Entete').get(field.name).errors"
+                                            class="invalid-feedback">
+                                            <div
+                                                *ngIf="this.form.get('Entete').get(field.name).hasError(validation.name)">
+                                                {{validation.message}}</div>
+                                        </div>
+
+                                    </ng-container>
+
+                                </div>
+                            </div>
+                            <app-table-popover-simple 
+                            *ngIf="this.showTablePopoverSimple"
+                                [listdatasourcee]="this.dataPopoverSimple"
+                                [fildesConfigg]="this.fildesConfigPopoverSimple"
+                                [listdatafiltred]="this.dataFiltredPopoverSimple"
+                                (ifClickElement)="OnGetElementTablePopoOverSimple($event)">
+                            </app-table-popover-simple>
+                            <div class="text-right">
+                                <button mat-stroked-button class="btn btn-outline-primary mr-1">Recherer les lignes</button>
+                                <button mat-stroked-button class="btn btn-outline-danger" type="reset" (click)="onReset()">Réinstaller</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card m-3">
+                    <h5 class="card-header">EnLigne</h5>
+                    <div class="card-body">
+
+
+                        <!-- <mat-spinner ></mat-spinner> -->
+                        <div class="spinner" *ngIf="!showdata">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                        <!-- <div *ngIf="!showdata" class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div> -->
+                        <app-table-classique 
+                        *ngIf="showdata" 
+                        [regConfig]="regConfig" 
+                        [(forme)]="this.form"
+                            [Allform]="this.form" 
+                            (valueChange)='displayCounter($event)'></app-table-classique>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md">
+
+                <div class="text-right">
+                    <button mat-stroked-button class="btn btn-outline-danger" [disabled]="activeajouter" placement="top"
+                        ngbTooltip="Supprimer" (click)="deleteAll()">
+                        <span class="material-icons">
+                            delete_sweep
+                        </span>
+                        <span>Supprimer</span>
+                    </button>
+
+                    <button mat-stroked-button class="btn btn-outline-primary" placement="top" ngbTooltip="Annuler"
+                        (click)="Reset()">
+                        <span class="material-icons">
+                            cancel_presentation
+                        </span>
+                        <span>Annuler</span>
+                    </button>
+                    <!-- style="color:white; background-color: #155724;"
+                                                                                [ngStyle]="{'color':'white' ,'background-color': (getdisabled()==true?'rgb(224 224 224)':'#155724')}"
+                                                                                mat-flat-button
+                                                                                -->
+                    <button mat-stroked-button placement="top" ngbTooltip="Valider" class="btn btn-outline-success"
+                        [disabled]="getdisabled()" (click)="SubmitallData()">
+                        <span class="material-icons">
+                            add_task
+                        </span>
+                        <span>Valider</span>
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+</form>
+
+ 
+        <!-- <div [satPopoverAnchor]="p">
+            <sat-popover #p id="p" [autoFocus]="false" hasBackdrop xAlign="start" yAlign="start" verticalAlign="below"
+                forceAlignment>
+               
+                <app-table-popover-simple *ngIf="this.showTablePopoverSimple" [listdatasourcee]="this.dataPopoverSimple"
+                    [fildesConfigg]="this.fildesConfigPopoverSimple" (ifClickElement)="OnGetElementTablePopoOverSimple($event)">
+                </app-table-popover-simple>
+            </sat-popover>
+        
+            
+        </div> -->
+        <!-- [appDisable]="true"
+                [forme]="this.fildthis.value.value=={}? this.formGroup  : this.fildthis.value | async"
+[Allform]="this.fildthis | async"
+
+        -->
+<!-- <mat-card style="height: 100%;">
+        <mat-card-header>
+            <mat-card-title>Convention</mat-card-title>
+            <mat-card-subtitle>
+        
+        
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+</mat-card-content>
+<mat-card-actions align="end"  >
+    
+</mat-card-actions>
+
+</mat-card> -->
+
+    <!-- <app-user-table></app-user-table> -->
+    <!-- <app-tablewithforms
+    *ngIf="showTable" 
+[regConfig]="regConfig" 
+[displayedColumns]="columnsToDisplay"
+[initialData]="this.filterdata"
+(ifChangeElement)='changeElemnt($event)'
+(ifdeleteElement)='deleteElemnt($event)'
+(ifCreateElement)='createElemnt($event)'
+    ></app-tablewithforms> -->
+
+<!-- <mat-form-field *ngFor="let field of this.fildesConfig;" 
+                                    appearance="outline">
+                                    <mat-label>{{field.label}}</mat-label>
+                                    <input matInput [formControlName]="field.name" 
+                                    placeholder="{{field.label}}" 
+                                    name="{{field.name}}"
+                                    type="{{field.inputType}}"
+                                        (keyup)='OpenHelp($event)' 
+                                        (change)='OpenHelpOnCHange($event)'
+                                        (click)='OpenHelpOnClick($event)'
+                                        autocomplete="off">
+                                    <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
+                                        <mat-error *ngIf="this.form.get('Entete').get(field.name).hasError(validation.name)">
+                                            {{validation.message}}</mat-error>
+                                    </ng-container>
+                                </mat-form-field> -->
+
+<!-- <div class="tabledataclass">
+                                <mat-table #tableConv [dataSource]="convention.data" matSort>
+                                    <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplayCnv">
+                                        <mat-header-cell *matHeaderCellDef>
+                                            <div mat-sort-header="getType(column).name">
+                                                {{getType(column).label}}<br>
+                                            </div>
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let element" (click)="showelement(element)">
+                                            {{element[column]}}
+                                        </mat-cell>
+                                    </ng-container>
+                                    <mat-header-row *matHeaderRowDef="columnsToDisplayCnv;sticky: true"></mat-header-row>
+                                    <mat-row #row [ngStyle]="{'background-color': getColorfind(row) }"
+                                        *matRowDef="let row; columns: columnsToDisplayCnv;">
+                                    </mat-row>
+                                </mat-table>
+                                
+                            </div> -->
+
+
+                            <!-- <form [formGroup]="this.form.get("Entete")"> -->
+                            <!-- <app-input-dynamique *ngIf="showdata" 
+                                                        [fields]="fildesConfig" 
+                                                        (ifKeyUpInput)='OpenHelp($event)' 
+                                                        (ifChangeInput)='OpenHelpOnCHange($event)'
+                                                        (ifSearchClick)='OpenHelpOnClick($event)'
+                                                        ></app-input-dynamique> -->
+                            <!-- <mat-form-field *ngFor="let field of fields;" appearance="outline" >
+                                                            <mat-label>{{field.label}}</mat-label>
+                                                            <input matInput [formControlName]="field.name"
+                                                            [name]="field.name" 
+                                                            [placeholder]="field.label" 
+                                                            [value]="field.value"
+                                                                (keyup)="OnKeyUp($event)" (click)="OnClick(field)" (change)="OnChange(field)" [type]="field.inputType"
+                                                                autocomplete="off"> -->
+                            <!-- <ng-container *ngFor="let validation of field.validations;" ngProjectAs="mat-error">
+                                                                <mat-error *ngIf="group.get(field.name).hasError(validation.name)">{{validation.message}}</mat-error>
+                                                            </ng-container> -->
+                            <!-- <mat-icon matSuffix [ngStyle]="{'cursor': 'pointer'}" >search</mat-icon>
+                                                        </mat-form-field> -->
+                            <!-- </form> -->

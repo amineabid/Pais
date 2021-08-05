@@ -1,0 +1,40 @@
+@import '~@angular/material/theming';
+
+:host {
+  @include mat-elevation(2);
+  display: block;
+  background: #f9f9f9;
+  border-radius: 2px;
+  padding: 16px 24px 8px;
+  min-width: 150px;
+}
+.tabledataclass{
+  @include mat-elevation(2);
+  max-width: 100%;
+  border: 1px solid;
+  // max-height: max-content;
+  height: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+mat-row{
+  cursor: pointer;
+}
+mat-row:hover{
+  background-color: lightblue;
+}
+mat-cell{
+  // border: 1px solid;
+  align-items: center;
+}
+mat-header-row{
+  background-color: #f8f9fa;
+}
+mat-table{
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    margin: 0px;
+//   overflow: hidden;
+}

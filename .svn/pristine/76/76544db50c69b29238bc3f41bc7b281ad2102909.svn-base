@@ -1,0 +1,27 @@
+export class Indemnite {
+     cod_IND:number;
+     lib_IND:string;
+     cptcpt_IND:string;
+     sens_IND:string;
+      mt_IND:any;
+     pour_IND:number;
+     pre_IND:string;
+     avten_IND:string;
+     cal_IND:number;
+      plaf_ind:any;
+     ste_ind:number;
+     abrev_ind:string;
+      mt_INDAV:any;
+     cong_IND:string;
+     Rappel_IND:string;
+     action_IND:string;
+     usr_IND:string;
+     dateAction_IND:string;
+     rsusr_IND:string;
+     codcn_IND:number;
+      mtbase_IND:any;
+      txcnss_IND:any;
+      txpatcnss_IND:any;
+     cotisable_IND:string;
+
+}

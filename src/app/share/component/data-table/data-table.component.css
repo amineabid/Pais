@@ -1,0 +1,21 @@
+table {
+  width: 100%;
+  /* height: 400px; */
+  max-height: min-content;
+  box-shadow: none;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.tabledataclass{
+  max-width: 100%;
+  max-height: min-content;
+  height: 400px;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.example-form{
+  place-content: stretch center;
+    align-items: stretch;
+    flex-direction: row;
+    box-sizing: border-box;
+}

@@ -1,0 +1,242 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, OnInit, Output, ViewChild } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { MatSidenav } from '@angular/material/sidenav';
+import { HeaderComponent } from 'src/app/share/component/header/header.component';
+import { LoadingComponent } from 'src/app/share/component/loading/loading.component';
+import { NavItem } from 'src/app/share/component/menu-list-item/nav-item';
+import { SidebarComponent } from 'src/app/share/component/sidebar/sidebar.component';
+import { SidenavService } from 'src/app/share/component/sidebar/sidebar.service';
+
+export const onSideNavChange = trigger('onSideNavChange', [
+  state('close',
+    style({
+      'min-width': '60px'
+    })
+  ),
+  state('open',
+    style({
+      'min-width': '250px'
+    })
+  ),
+  transition('close => open', animate('250ms ease-in')),
+  transition('open => close', animate('250ms ease-in')),
+]);
+
+
+@Component({
+  selector: 'app-layout-sidebar',
+  templateUrl: './layout-sidebar.component.html',
+  styleUrls: ['./layout-sidebar.component.css'],
+  animations: [ onSideNavChange]
+})
+export class LayoutSidebarComponent implements OnInit {
+  // @ViewChild('snav', { static: true }) snav: MatSidenav;
+  @ViewChild('header', { static: true }) header:any;
+  @ViewChild(LoadingComponent) form :LoadingComponent;
+
+  @Output() color: ThemePalette = 'primary';
+  @Output() value:50;
+  @Output() mode: ProgressSpinnerMode = 'indeterminate';
+
+
+  mobileQuery: MediaQueryList;
+  // public sideNavState: boolean = false;
+  // stylewithsidenav:any=60;
+  // btnmenu:boolean=true;
+  // iconmenu:string="menu";
+  // sidenav: SidebarComponent = new SidebarComponent(this.changeDetectorRef, this.media, this.serviceSidenav);
+  constructor(changeDetectorRef: ChangeDetectorRef,media: MediaMatcher) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+    // this.serviceSidenav.setSidenav(this.sidenav.snav);
+    //this.onSideNavChange = this.snav.opened;
+    // console.log(this.header.btnmenu);
+  }
+  // onClickbtnMenu(){
+  //   console.log(this.mobileQuery.matches);
+  //   // console.log(this.btnmenu)
+  //   if (this.mobileQuery.matches==false){
+  //     this.serviceSidenav.open();
+  //     if (this.btnmenu == false) {
+        
+  //       this.iconmenu = "clear";
+  //       // this.menuState = this.menuState === 'out' ? 'in' : 'out';
+  //       this.stylewithsidenav = 250;
+  //       // this.sideNavState = false;
+        
+  //     } else {
+  //       this.iconmenu = "menu";
+  //       // this.menuState = this.menuState === 'out' ? 'in' : 'out';
+  //        this.stylewithsidenav = 60;
+  //       // this.sideNavState = true;
+        
+  //     }
+  //     this.btnmenu = !this.btnmenu;
+  //   }
+  //   if (this.mobileQuery.matches==true){ 
+  //     this.btnmenu = !this.btnmenu;
+  //     if (this.btnmenu == false) {
+  //       this.serviceSidenav.open();
+  //       this.iconmenu = "clear";
+  //       this.stylewithsidenav = 250;
+  //     } else {
+  //       this.iconmenu = "menu";
+  //       this.serviceSidenav.close();
+  //     }
+  //   }
+  //   this.header.iconmenu = this.iconmenu;
+  //   this.header.btnmenu = this.btnmenu;
+  // }
+  navItems: NavItem[] = [
+    {
+      displayName: 'parametre',
+      iconName: 'settings',
+      children: [
+        {
+          displayName: 'Societe',
+          iconName: '',
+          // route: '#'
+        },
+        {
+          displayName: 'Creation Dossier',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Gestion Documentation GC',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Type CNSS',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Banque',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Compatibilite',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Service',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Qualification',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Situation de recrutement',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Grille de Salaire',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Indemnite',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Cnss Convention',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Prime Convention',
+          iconName: '',
+          route: 'admin/prim-convention'
+        },
+        {
+          displayName: 'Type de Paie',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Personnel',
+          iconName: '',
+          // route: 'admin/dashbord'
+        },
+        {
+          displayName: 'Convention',
+          iconName: '',
+          route: 'admin/convention'
+        }
+      ]
+    },
+    // {
+    //   displayName: 'Mouvement',
+    //   iconName: 'recent_actors',
+    // },
+    // {
+    //   displayName: 'Etats',
+    //   iconName: 'recent_actors',
+    // },
+    // {
+    //   displayName: 'T.Mensuel',
+    //   iconName: 'recent_actors',
+    // },
+    // {
+    //   displayName: 'Cloture',
+    //   iconName: 'recent_actors',
+    // },
+    // {
+    //   displayName: 'T.Annuel',
+    //   iconName: 'recent_actors',
+    // },
+    // {
+    //   displayName: 'CNSS',
+    //   iconName: 'recent_actors',
+    // },
+    // {
+    //   displayName: 'Pret',
+    //   iconName: 'recent_actors',
+    // },
+    // {
+    //   displayName: 'Contact',
+    //   iconName: 'recent_actors',
+    // },
+    // {
+    //   displayName: 'Conge',
+    //   iconName: 'recent_actors',
+    // },
+  ];
+
+  private _mobileQueryListener: () => void;
+  public onSideNavChange: boolean;
+
+
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  ngOnInit(): void {
+    // if (this.mobileQuery.matches == true) {
+
+    //   this.stylewithsidenav = 250;
+    //   this.serviceSidenav.close();
+    // }else{
+    //   this.stylewithsidenav = 60;
+    //   this.serviceSidenav.open();
+    // }
+    // this.header.iconmenu = this.iconmenu;
+    // this.header.btnmenu = false;
+  }
+
+
+}

@@ -1,0 +1,88 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+// import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs'; 
+import { Convention } from './../model/convention';
+// import 'rxjs/add/operator/map';
+import { Config } from 'src/model/config'
+@Injectable({
+  providedIn: 'root'
+})
+export class ConventionService {
+
+  private header = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': 'true' });
+  // 
+  private ip: string =null ;
+  private url:Config = Config.serverPath;
+  private baseUrl = Config.getConvention;
+  public convention:Convention;
+  constructor(public http: HttpClient) {
+    // this.ip = this.http.get("http://api.ipify.org/?format=json");
+   }
+
+   async getConvention(id: number): Promise<Observable<any>> {
+     return (await this.http.get<any>(`${this.baseUrl}` + '/' + `${id}`, { headers: this.header }));
+    
+  }
+
+  async createConvention(conv: any): Promise<Observable<any>> {
+    return await this.http.post<any>(`${this.baseUrl}` + '', conv, { headers: this.header });
+  }
+
+  async updateConvention(id: number, value: any): Promise<Observable<any>> {
+    let params = new HttpParams()
+      .set('username', "")
+      .set('password', "");
+    return await this.http.post<any>(`${this.baseUrl}` + '/' + `${id}`, value, { headers: this.header });
+  }
+
+  deleteConvention(id: number): Observable<Convention> {
+    // let value: any;
+    // this.http.request('delete', `${this.baseUrl}` + '/convention/delete',  { body: value, responseType: 'json', headers: this.header });
+    return this.http.delete<Convention>(`${this.baseUrl}` + '/' + `${id}`, { responseType: 'json', headers: this.header });
+  }
+
+  getConventionList(): Observable<Convention[]> {
+     return this.http.get<Convention[]>(`${this.baseUrl}` + '', { headers: this.header });
+  }
+
+
+  static filedConvention(){
+    let fildesConfig=[];
+    interface IMyTable extends Convention { };
+    type MyTablePropsArray = Array<keyof IMyTable>;
+    const propsArray: MyTablePropsArray = Object.keys(new Convention()) as MyTablePropsArray;
+    propsArray.forEach(element => {
+      if (element == "cod_CONV") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "Code Convention",
+            inputType: "number",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "lib_CONV") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "Libélé Convention",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+
+    });
+    return fildesConfig;
+  }
+  
+
+}

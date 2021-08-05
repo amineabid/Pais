@@ -1,0 +1,70 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Convention</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+            <!-- <dynamic-form *ngIf="showdata" [fields]="fildesConfig" (ifChangeElement)='OpenHelp($event)' (submit)="submit($event)">
+            </dynamic-form> -->
+            <div [satPopoverAnchor]="p">
+                <app-input-dynamique  
+                *ngIf="showdata" 
+                [fields]="fildesConfig" 
+                (ifClickInput)='OpenHelpOnClick($event)'
+                (ifKeyUpInput)='OpenHelp($event)' 
+                (ifChangeInput)='OpenHelpOnCHange($event)'></app-input-dynamique>
+                <button mat-button [disabled]="ValidationBtn" (click)="getallData()">Valider</button>
+                <button mat-button (click)="Reset()">Effacer</button>
+            </div>
+            
+        <!-- <div class="example-header">
+            <mat-form-field (click)="p.open();">
+                <input matInput id="a"  (keypress)="keyspresse($event)" value="{{elm.cod_CONV}}" (keyup)="applyFilter($event.target.value);" placeholder="Filter">
+            </mat-form-field>
+            
+            <span>{{elm.cod_CONV}}</span>
+            <span>{{elm.lib_CONV}}</span>
+        </div> -->
+        <sat-popover #p id="p" hasBackdrop xAlign="start" yAlign="start" verticalAlign="below" forceAlignment (opened)="showtable($event)" (closed)="update($event)">
+            <div  class="tabledataclass">
+                <mat-table #tableConv [dataSource]="convention.data" matSort>
+                    <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplayCnv">
+                        <mat-header-cell *matHeaderCellDef>
+                            {{getType(column).label}}
+                            <!-- {{column}} [attr.id]="row.index" -->
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element" (click)="showelement(element)">
+                            <!-- <div name="NCulmn" style="display: none;" >{{getType(column).name}}-&-</div> -->
+                            {{element[column]}}
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="columnsToDisplayCnv;sticky: true"></mat-header-row>
+                    <mat-row #row [ngStyle]="{'background-color': getColorfind(row) }" *matRowDef="let row; columns: columnsToDisplayCnv;">
+                    </mat-row>
+                </mat-table>
+            </div>
+        </sat-popover>
+    </mat-card-content>
+    <mat-card-actions>
+    </mat-card-actions>
+</mat-card>
+<app-table-edting-with-component 
+*ngIf="showTable" 
+[regConfig]="regConfig" 
+[displayedColumns]="columnsToDisplay"
+[initialData]="this.filterdata"
+(ifChangeElement)='changeElemnt($event)'
+(ifdeleteElement)='deleteElemnt($event)'
+(ifCreateElement)='createElemnt($event)'
+></app-table-edting-with-component>
+    <!-- <app-table-classique (valueChange)='displayCounter($event)'></app-table-classique> -->
+    <!-- <app-user-table></app-user-table> -->
+    <!-- <app-tablewithforms
+    *ngIf="showTable" 
+[regConfig]="regConfig" 
+[displayedColumns]="columnsToDisplay"
+[initialData]="this.filterdata"
+(ifChangeElement)='changeElemnt($event)'
+(ifdeleteElement)='deleteElemnt($event)'
+(ifCreateElement)='createElemnt($event)'
+    ></app-tablewithforms> -->

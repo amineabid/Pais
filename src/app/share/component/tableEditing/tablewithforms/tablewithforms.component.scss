@@ -1,0 +1,128 @@
+@import '~@angular/material/theming';
+
+// :host {
+//   @include mat-elevation(2);
+//   display: block;
+//   background: #f9f9f9;
+//   border-radius: 2px;
+//   padding: 16px 24px 8px;
+//   min-width: 150px;
+// }
+.tabledataclass{
+  max-width: 100%;
+  // max-height: max-content;
+  height: 400px;
+    overflow: hidden;
+}
+.tabledataclass:hover{
+    overflow-x: auto;
+  overflow-y: auto;
+}
+.centrerTable{
+    /* justify-content: center; */
+    /* margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%; */
+    
+  overflow-x: auto;
+  overflow-y: auto;
+}
+mat-table{
+  border: 1px solid;
+  //  height: 25px;
+  //   overflow-x: auto;
+  // overflow-y: auto;
+}
+/* .mat-table{ */
+    /* overflow-x: auto;
+  overflow-y: auto;
+    border-collapse: collapse;
+  border-radius: 1em; */
+  /* width: 100%;
+} */
+/* .mat-footer-cell{
+  width: max-content;
+  position: sticky;
+} */
+
+// mat-cell:first-child {
+//   // border-left: 2px solid #ffa600;
+//   width: 10px;
+// }
+/*
+.mat-cell:last-child {
+  border-right: 2px solid #ffa600;
+} */
+
+
+/* .mat-header-cell:first, .mat-cell:first, .mat-footer-cell:first {
+    width: 70px;
+    align-items: stretch;
+} */
+
+//  .mat-row, .mat-header-row, .mat-footer-row {
+//     display: flex;
+//     border-width: 0;
+//     border-bottom-width: 1px;
+//     border-style: solid;
+    
+//     box-sizing: border-box;
+// } 
+
+.mat-header-cell {
+    // font-size: 12px;
+    // font-weight: 500;
+    // border: 2px solid cornsilk;
+    // color: black;
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    border: 1px solid;
+    text-align: center;
+} 
+
+.mat-cell {
+  border: 1px solid;
+  text-align: center;
+  color: black;
+}
+.mat-cell:first-child{
+  width: 10px;
+}
+.mat-cell:hover{
+  border-color: blue;
+}
+.borderColor:hover{
+  border-color: blue;
+}
+// .mat-table-sticky:first-child {
+//   // border-right: 1px solid #e0e0e0;
+//   width: 10px;
+// }
+/* */
+/* .mat-footer-cell{
+  border: 2px solid cornsilk;
+  justify-content: center;
+} */
+.mat-footer-cell {
+    // align-items: stretch;
+    justify-content: center;
+} 
+/* .mat-cell:first-of-type, .mat-header-cell:first-of-type, .mat-footer-cell:first-of-type {
+    padding-left: 0px;
+}  */
+
+inline-edit:not(:hover){
+  opacity: 30%;
+}
+@media (max-width: 600px) {
+  mat-table{
+    width: 500px;
+  }
+  mat-cell {
+    width: 10px;
+  }
+  inline-edit{
+    width: 80%;
+  }
+}

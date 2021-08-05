@@ -1,0 +1,8 @@
+export class Config {
+    static serverPath = "http://localhost:9090";
+    static getConvention = Config.serverPath + "/conv";
+    static getLigne_conv = Config.serverPath + "/ligne_conv";
+    static getIndemite = Config.serverPath + "/indemite";
+    static getPrimeConvention = Config.serverPath + "/PrimeConvention";
+
+}

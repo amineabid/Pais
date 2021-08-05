@@ -1,0 +1,10 @@
+<mat-sidenav #sideNav mode="over" fixedInViewport="true" fixedTopGap="0"
+    [style.width.px]="mobileQuery.matches ? 300 : 800" position="end">
+
+    <a style="float: right;" (click)="this.sideNav.close()" mat-button>
+        <mat-icon>clear</mat-icon>
+    </a>
+
+    <ng-container #modifierCompoent></ng-container>
+
+</mat-sidenav>

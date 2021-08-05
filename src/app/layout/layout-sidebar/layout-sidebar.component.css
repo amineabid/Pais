@@ -1,0 +1,15 @@
+/* mat-drawer-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+} */
+.example-spacer {
+  flex: 1 1 auto;
+}
+.filler {
+   flex: 1 1 auto;
+}
+.gap {
+   margin-right: 10px;
+}

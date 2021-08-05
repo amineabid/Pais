@@ -1,0 +1,72 @@
+
+            <!-- <a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a> -->
+
+        <!-- <mat-nav-list>
+            
+            
+            
+        </mat-nav-list> -->
+<!-- <mat-sidenav #snav [@onSideNavChange]="sideNavState ? 'open' : 'close'" mode="over" (mouseover)="OpenSideNav()"
+    (mouseout)="CloseSideNav()" style="box-shadow:none;background-color:#ffffff;;" [style.width.px]="stylewithsidenav" (opened)="mobileQuery.matches ? true :false"
+    fixedInViewport="true"  fixedTopGap="64"
+    >
+    <mat-nav-list>
+        <a mat-list-item [routerLink]="['/admin/dashbord']" routerLinkActive="router-link-active">
+            <mat-icon style="padding-right:40px;">home</mat-icon>
+            <span>Home </span>
+        </a>
+        <a mat-list-item [routerLink]="['/admin/convention']" routerLinkActive="router-link-active">
+            <mat-icon style="padding-right:40px;">note</mat-icon>
+            <span>Convention</span>
+        </a>
+    </mat-nav-list>
+</mat-sidenav> -->
+<!-- <mat-sidenav #snav [@onSideNavChange]="sideNavState ? 'open' : 'close'" mode="over" (mouseover)="OpenSideNav()"
+    (mouseout)="CloseSideNav()" style="box-shadow:none;background-color:#ffffff;;" [style.width.px]="stylewithsidenav" (opened)="mobileQuery.matches ? true :false"
+    fixedInViewport="true"  fixedTopGap="64"
+    >
+    </mat-sidenav> -->
+    <!-- <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+            <button mat-icon-button disabled></button>
+            {{node.item}}
+        </mat-tree-node>
+        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+            <button mat-icon-button [attr.aria-label]="'Toggle ' + node.item" matTreeNodeToggle>
+                <mat-icon class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+            </button>
+            {{node.item}}
+            <mat-progress-bar *ngIf="node.isLoading" mode="indeterminate" class="example-tree-progress-bar"">
+            </mat-progress-bar>
+        </mat-tree-node>
+    </mat-tree> -->
+
+        
+
+        
+        <mat-sidenav #snav  [@onSideNavChange]="sideNavState ? 'open' : 'close'" mode="over" 
+            (mouseover)="OpenSideNav()"
+            (mouseout)="CloseSideNav()" 
+            style="box-shadow:none;background-color:#ffffff;" 
+            [style.width.px]="stylewithsidenav" 
+            (opened)="mobileQuery.matches ? true :false"
+            fixedInViewport="true"  fixedTopGap="64">
+            <mat-nav-list  >
+                <app-menu-list-item *ngFor="let item of navItems" [item]="item"></app-menu-list-item>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <!-- <mat-list>
+            <mat-list-item [routerLink]="['']" routerLinkActive="router-link-active" >
+                <mat-icon mat-list-icon>home</mat-icon>
+                <div mat-line>Home</div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item [routerLink]="['/convention']" routerLinkActive="router-link-active">
+                <mat-icon mat-list-icon>note</mat-icon>
+                 <div mat-line>Convention</div>
+            </mat-list-item>
+        </mat-list> -->
+ 

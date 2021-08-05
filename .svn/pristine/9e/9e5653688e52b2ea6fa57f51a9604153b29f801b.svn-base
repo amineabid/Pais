@@ -1,0 +1,50 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+// import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs'; 
+import { Convention } from './../model/convention';
+// import 'rxjs/add/operator/map';
+import { Config } from '../model/config';
+import { Ligne_conv } from '../model/ligne_conv';
+@Injectable({
+  providedIn: 'root'
+})
+export class Ligne_convService {
+
+  private header = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': 'true' });
+  // 
+  private ip: string =null ;
+  private url:Config = Config.serverPath;
+  private baseUrl = Config.getLigne_conv;
+  public convention:Convention;
+  constructor(public http: HttpClient) {
+    // this.ip = this.http.get("http://api.ipify.org/?format=json");
+   }
+
+   async getLigneConvention(id: number): Promise<Observable<any>> {
+     return (await this.http.get<any>(`${this.baseUrl}` + '/getOne', { headers: this.header }));
+    
+  }
+
+  async createLigneConvention(conv: any): Promise<Observable<any>> {
+    return await this.http.post<any>(`${this.baseUrl}` + '/create', conv, { headers: this.header });
+  }
+
+  async updateLigneConvention(value: any, valuedetail: any): Promise<Observable<any>> {
+    let params = new HttpParams()
+      .set('lcnv', value)
+      .set('lconvDetail', valuedetail);
+    return await this.http.post<any>(`${this.baseUrl}` + '/update', params, { headers: this.header });
+  }
+
+  deleteLigneConvention(value: any): Observable<Ligne_conv> {
+    // let value: any;
+    return this.http.request<Ligne_conv>('delete', `${this.baseUrl}` + '/delete',  { body: value, responseType: 'json', headers: this.header });
+    //return this.http.delete<Convention>(`${this.baseUrl}` + '/convention/' + `${id}`, { responseType: 'json', headers: this.header });
+  }
+
+  getLigneConventionList(): Observable<any[]> {
+     return this.http.get<any[]>(`${this.baseUrl}` + '', { headers: this.header });
+  }
+
+}

@@ -1,0 +1,25 @@
+<div class="tabledataclass">
+    <mat-table #tableConv [dataSource]="datasource" >
+        <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
+            <mat-header-cell *matHeaderCellDef>
+                <div >
+                    {{getType(column).label}}
+                </div>
+
+                <br>
+                <!-- {{column}} [attr.id]="row.index" -->
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="showelement(element)">
+                <!-- <div name="NCulmn" style="display: none;" >{{getType(column).name}}-&-</div> -->
+                {{element[column]}}
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columnsToDisplay;sticky: true"></mat-header-row>
+        <mat-row #row [ngStyle]="{'background-color': getColorfind(row) }"
+            [matRowKeyboardSelection]="this.selection"  
+            [rowModel]="row"    [matTable]="tableConv" [row]="matrow"
+            [ngClass]="{selected: selection.isSelected(row)}"
+            *matRowDef="let row; columns: columnsToDisplay;">
+        </mat-row>
+    </mat-table>
+</div>

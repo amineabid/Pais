@@ -1,0 +1,294 @@
+import { SelectionModel } from '@angular/cdk/collections';
+import { DataSource } from '@angular/cdk/table';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { SatPopover } from '@ncstate/sat-popover';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { FieldConfig } from '../componentForms/field.interface';
+import { SnackebarService } from '../snackbar/snackebar.service';
+
+@Component({
+  selector: 'app-table-edting-with-component',
+  templateUrl: './table-edting-with-component.component.html',
+  styleUrls: ['./table-edting-with-component.component.scss']
+})
+export class TableEdtingWithComponentComponent implements OnInit {
+  @Input()
+  displayedColumns = [];
+  columnsToDisplay: any[] =[];
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  @Input()
+  initialData: any[] = [];
+  dataSource = new ExampleDataSource(this.initialData);
+  dataSourceMat: MatTableDataSource<any> = new MatTableDataSource(this.initialData);
+  @Output() ifChangeElement = new EventEmitter();
+  @Output() ifdeleteElement = new EventEmitter();
+  @Output() ifCreateElement = new EventEmitter();
+
+  @Input()
+  regConfig: FieldConfig[] = [];
+  @Input()
+  btncreate:boolean=false;
+  @Input()
+  btndelete:boolean=true;
+
+  @ViewChild('scrollframe', { static: false }) scrollFrame: ElementRef;
+
+
+selection = new SelectionModel<any>(true, []);
+
+  constructor(public snackService: SnackebarService) { }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.dataSourceMat.sort = this.sort;
+    this.dataSourceMat.paginator = this.paginator;
+  }
+  ngOnInit(): void {
+    this.dataSource = new ExampleDataSource(this.initialData);
+    this.dataSourceMat.data = this.initialData;
+    this.columnsToDisplay.push('select');
+    this.getShowColumn()
+  }
+
+//Methode OutPut
+  onchangeCell(elem){
+    
+
+  }
+  CreateNew() {
+    // console.log(this.initialData);
+    this.ifCreateElement.emit(this.initialData);
+    
+    this.dataSourceMat.data = this.initialData;
+    
+    this.scrollFrame.nativeElement.scroll({
+      top: this.scrollFrame.nativeElement.scrollHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
+    this.btncreate =true;
+    
+    // let last = this.initialData;
+    // last.push(last[last.length - 1]);
+    // console.log(Object.values(last[last.length-1])[1]);
+
+    // console.log(last);
+    // this.dataSourceMat.data = last;
+  }
+  deleteSelect() {
+    let listremove=[];
+    this.selection.selected.forEach(item => {
+      let index: number = this.initialData.findIndex(d => d === item);
+      // console.log(this.initialData.findIndex(d => d === item));
+      listremove.push(this.initialData[index])
+      // this.initialData.splice(index, 1);
+    });
+    // this.dataSourceMat.data = this.initialData;
+    this.ifdeleteElement.emit(listremove)
+    this.dataSourceMat.data = this.initialData;
+
+    this.selection = new SelectionModel<any>(true, []);
+    this.refrech();
+    this.btndelete = true;
+    
+    this.snackService.openSnackBar("✅ Supprimée dans list", "OK");
+    // this.ifdeleteElement.emit(true);
+  }
+//Methode Fin Output
+  closeopenInlineEdit:boolean=false;
+  disabledbtndelete(){
+    this.btndelete = true;
+    // function sleep(ms) {
+    //   return new Promise(resolve => setTimeout(resolve, ms));
+    // }
+    let listremove = [];
+    this.selection.selected.forEach(item => {
+      let index: number = this.initialData.findIndex(d => d === item);
+      // console.log(this.initialData.findIndex(d => d === item));
+      // console.log(item)
+      listremove.push(this.initialData[index])
+      // this.initialData.splice(index, 1);
+      this.btndelete =false;
+    });
+    
+    if (listremove.length==0){
+      console.log("list est vide");
+      this.btndelete = true;
+    }
+  }
+  async update(column:string,el: Element, comment: any) {
+    if (comment == null) { 
+      this.closeopenInlineEdit = false;
+      this.refrech();
+      return; }
+    // copy and mutate
+    const copy = this.dataSource.data().slice()
+    let col = Object.keys(el);
+    if (col.indexOf(column) == -1) {
+      col.push(column);
+    }
+    col.forEach(l => {
+      
+      if (column == l) {
+        el[column] = comment;
+      }
+
+    });
+    this.dataSource.update(copy);
+    this.ifChangeElement.emit({ column: column,elemnt:el});
+    this.refrech();
+ 
+  }
+  chainedeValidation ="";
+  async refrech(){
+    let aa = this.dataSource.data();
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    await sleep(300);
+    console.log(aa);
+    console.log(this.initialData);
+    this.btncreate = false;
+    this.columnsToDisplay.forEach((l,i) => {
+      if(i!=0){
+        this.initialData.forEach(element => {
+          if (element[l] == null || element[l] == 0 || element[l] == "") {
+            this.btncreate = true;
+            // console.log("this data not valid")
+            return;
+          }
+        });
+      }
+      
+    });
+    if(this.btncreate){
+      
+      this.chainedeValidation = "il faut saisir tout les champs";
+    }else{
+      this.snackService.openSnackBar("✅ Ajoutée dans list", "OK");
+      this.chainedeValidation = "";
+    }
+  }
+  @ViewChild(SatPopover) popover: SatPopover;
+  showpopover:boolean= false;
+  OpenPopOver(){
+    this.closeopenInlineEdit = true;
+    // this.popover.open();
+  }
+  Openinline_edit(val) {
+    this.closeopenInlineEdit = true;
+    // this.popover.open(val);
+  }
+
+  GetAllData(){
+    console.log(this.dataSource.data())
+  }
+  
+  ngOnDestroy(): void {
+    console.log("this component is close")
+  }
+  gettype(column){
+    if(column==undefined){return;}
+    return this.regConfig.find(row=>row.name==column);
+  }
+  getLableColumn(column_name){
+    let labelget;
+    this.regConfig.forEach(element => {
+      if (element.name.trim() == column_name.trim()) {
+        labelget= element.label;
+      }
+    });
+    return labelget;
+  }
+  
+  getShowColumn(){
+    this.regConfig.forEach(element => {
+      if(element.name!=undefined){
+        this.columnsToDisplay.push(element.name)
+      }
+    });
+    this.regConfig.forEach(element => {
+      if(element.column_show==false){
+        let index = this.columnsToDisplay.indexOf(element.name)
+        this.columnsToDisplay.splice(index, 1);
+      }
+    });
+  }
+  getEditColumn(column){
+    return this.regConfig.find(row => row.name == column).showpopover;
+  }
+  getDisplayedColumns(): any[] {
+    return this.displayedColumns;
+  }
+  submit(event){
+    console.log(event.value);
+  }
+  
+
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.initialData.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    
+    this.isAllSelected() ?
+    this.selection.clear() :
+      this.initialData.forEach(row => this.selection.select(row));
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: any): string {
+    
+    if (!row) {
+      
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
+}
+
+
+
+/**
+ * Data source to provide what data should be rendered in the table. The observable provided
+ * in connect should emit exactly the data that should be rendered by the table. If the data is
+ * altered, the observable should emit that new set of data on the stream. In our case here,
+ * we return a stream that contains only one set of data that doesn't change.
+ */
+export class ExampleDataSource extends DataSource<any> {
+
+  private dataSubject = new BehaviorSubject<any[]>([]);
+
+  data() {
+    
+    return this.dataSubject.value;
+  }
+
+  update(data) {
+    this.dataSubject.next(data);
+  }
+
+  constructor(data: any[]) {
+    super();
+    this.dataSubject.next(data);
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<any[]> {
+    return this.dataSubject;
+  }
+
+  disconnect() { }
+}

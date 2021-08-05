@@ -1,0 +1,131 @@
+<section>
+    <div class="example-button-row">
+        <button mat-mini-fab color="primary" [disabled]="btncreate" (click)="CreateNew()"
+            aria-label="Example icon button with a home icon">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" [disabled]="btndelete" (click)="openDialog()"
+            aria-label="Example icon button with a home icon">
+            <mat-icon>delete</mat-icon>
+
+        </button>
+        <!-- <div align="end">
+            
+            <a mat-raised-button color="primary" [href]="this.lienReport" target="_blank">
+                <span class="material-icons">
+                    system_update_alt
+                </span>
+                <span>Exporter</span>
+            </a>
+
+        </div> -->
+    </div>
+</section>
+<mat-divider [style.marginB]="10"></mat-divider>
+<div class="tabledataclass">
+
+
+    <div #scrollframe class="table-responsive">
+<form [formGroup]="formout" autocomplete="off">
+
+
+
+        <table #testtable mat-table [dataSource]="dataSourceMat" matSort cdkDropList cdkDropListOrientation="horizontal"
+            (cdkDropListDropped)="tableDrop($event)" class="mat-elevation-z8">
+
+
+            <ng-container [matColumnDef]="column.field" *ngFor="let column of columns ; let i = index;">
+                
+                <span>
+                    <th class="headertablemove" mat-header-cell *matHeaderCellDef 
+                    cdkDrag cdkDragLockAxis="x"
+                        cdkDragBoundary="mat-header-row">
+                        <div *ngIf="i != 0"  mat-sort-header="{{column.field}}">
+                            {{gettype(column.field).label}}
+                        </div>
+                        <div *ngIf="i === 0">
+                            <mat-checkbox color="primary" (change)="$event ? masterToggle() : null;disabledbtndelete();"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                [aria-label]="checkboxLabel()">
+                            </mat-checkbox>
+                        </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element; let ie = index;"
+                        (click)="disabledbtndelete();">
+                        <!--
+                                                        (click)="gettype(column.field).table!=undefined?p.open():undefined"
+                            (change)="gettype(column.field).table==undefined?update(column.field,element, $event):undefined"
+                            [ngStyle]="{'text-align': gettype(column.field).inputType!='number'?'start':'end','display': 'block','box-sizing':'border-box','color':'black','width':gettype(column.field).width+''}"
+
+                            (click)="gettype(column.field).table!=undefined?p.open():undefined"
+                            [formControlName]="gettype(column.field).name" [(ngModel)]="element[column.field]" -->
+                        <div *ngIf="i != 0" [satPopoverAnchor]="p" [formGroup]="element" 
+                        style="cursor: pointer;">
+                            <mat-form-field floatLabel="never"
+                            appearance="outline"
+
+                            >
+                                <input  matInput
+                                    [ngStyle]="{'text-align': gettype(column.field).inputType!='number'?'start':'end','display': 'block','box-sizing':'border-box','color':'black'}"
+                                    [disabled]="!gettype(column.field).showpopover" 
+                                    formControlName="{{gettype(column.field).name}}"
+                                    name="{{gettype(column.field).name}}"
+                                    placeholder="{{gettype(column.field).label}}" 
+                                    value="{{element.value}}"
+                                     type="{{gettype(column.field).inputType}}" required autocomplete="off">
+                                <!-- <mat-error *ngIf="(gettype(column.field).name)?.invalid">
+                                    <div *ngIf="(gettype(column.field).name).errors.required">Name is required</div>
+                                </mat-error> -->
+                            </mat-form-field>
+                            
+                            
+
+                            
+                            
+
+                        </div>
+                        <div *ngIf="i === 0">
+                            <mat-checkbox color="primary" (click)="$event.stopPropagation();"
+                                (change)="$event ? selection.toggle(element) : null;disabledbtndelete();"
+                                [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)">
+                            </mat-checkbox>
+                        </div>
+                        <sat-popover #p hasBackdrop xAlign="start" yAlign="start" (opened)="Openinline_edit()"
+                            (closed)="update(column.field,element, $event)">
+                            <inline-edit *ngIf="this.closeopenInlineEdit" [field]="gettype(column.field)" [label]="gettype(column.field).label"
+                                [typee]="gettype(column.field).inputType" [value]="element[column.field]">
+                            </inline-edit>
+                        </sat-popover>
+                    </td>
+                    
+                </span>
+
+            </ng-container>
+            <tr mat-header-row #tableHeaderRow *matHeaderRowDef="columnsToDisplay;sticky: true"></tr>
+            <tr mat-row #matrow *matRowDef="let row; columns: columnsToDisplay;"
+            [matRowKeyboardSelection]="this.selection"  
+            [rowModel]="row"    [matTable]="testtable" [row]="matrow"
+            [ngClass]="{selected: selection.isSelected(row)}"
+            
+            ></tr>
+        </table>
+        </form>
+        
+    </div>
+    <div class="pagintor">
+        <div [ngStyle]="{'margin': 'auto','margin-left':'20px'}">
+            <mat-slide-toggle color="primary" [(ngModel)]="this.isChecked" (change)="CheckedPagination()">Pagination
+            </mat-slide-toggle>
+        </div>
+        <div [ngStyle]="{'margin': 'auto','margin-right':'20px'}">
+            <mat-paginator #paginationevent [disabled]="this.isChecked==true?false:true" [pageSize]="indexsize"
+                [pageSizeOptions]="[10,20,30,40,50,100]" showFirstLastButtons (page)="pageEvent($event)" sticky>
+            </mat-paginator>
+
+        </div>
+    </div>
+
+
+
+</div>

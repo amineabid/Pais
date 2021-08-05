@@ -1,0 +1,56 @@
+@import '~@angular/material/theming';
+
+:host {
+  @include mat-elevation(2);
+  display: block;
+  background: #f9f9f9;
+  border-radius: 2px;
+  padding: 16px 24px 8px;
+  min-width: 150px;
+  min-height: 100%;
+}
+// mat-table {
+  
+//   @include mat-elevation(2);
+//   display: block;
+//   // background: bisque;
+//   border: 1px solid;
+//   border-radius: 2px;
+//   padding: 16px 24px 8px;
+//   min-width: 200px;
+//   height: 300px;
+//   overflow-y: auto;
+//   overflow-x: auto;
+// }
+.tabledataclass{
+  // @include mat-elevation(2);
+  max-width: 100%;
+  border: 1px solid;
+  // max-height: max-content;
+  height: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+mat-row{
+  cursor: pointer;
+}
+mat-row:hover{
+  background-color: lightblue;
+}
+mat-cell{
+  // border: 1px solid;
+  align-items: center;
+}
+mat-header-row{
+  background-color: #f8f9fa;
+}
+mat-table{
+  
+overflow: hidden;
+}
+button{
+  margin: 1%;
+}
+::-webkit-scrollbar-track {
+    height: 60px;
+}

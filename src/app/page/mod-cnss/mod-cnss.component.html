@@ -1,0 +1,203 @@
+<!-- main app container -->
+<div class="card m-3">
+    <h5 class="card-header">Type CCNSS</h5>
+    <div class="card-body">
+        <div class="btn-group btn-group-toggle" name="radioBasic">
+            <label class="btn btn-outline-info" [ngClass]="{'active': activemodifer }">
+                <input type="radio" name="options" id="modifier" disabled> Modifier
+            </label>
+            <label class="btn btn-outline-info" [ngClass]="{'active': activeajouter }">
+                <input type="radio" name="options" id="ajouter" disabled> Ajouter
+            </label>
+        </div>
+        <form [formGroup]="form.get('Entete')" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmitEnTete()">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>Code CNSS</label>
+                    <div class="input-group mb-3">
+                        <input type="number" formControlName="cod_CNSS"
+                            name="cod_CNSS"
+                            class="form-control"
+                            focus
+                            [ngClass]="{ 'is-invalid':  form.get('Entete').get('cod_CNSS').errors }"
+                            (keyup)='keyupcod_CNSS($event)' 
+                            (change)='Changecod_CNSS($event)'
+                            (click)='Clickcod_CNSS($event)'
+                            (focus)="Focuscod_CNSS($event)"
+                            (focusout)="Focusoutcod_CNSS($event)"
+                            />
+                            <div class="input-group-append">
+                                <span class="input-group-text material-icons" (click)="MOD_CNSSS.toggle()" [attr.aria-expanded]="!isCollapsedMOD_CNSSS"
+                                    aria-controls="collapseExample">
+                                        {{isCollapsedMOD_CNSSS==false? 'expand_more':'expand_less'}} 
+                                </span>
+                            </div>
+                        <ng-container *ngFor="let validation of gettype('cod_CNSS').validations;">
+                                <div *ngIf="form.get('Entete').get('cod_CNSS').hasError(validation.name)" class="invalid-feedback">
+                                    {{validation.message}}
+                                </div>
+                        </ng-container>
+                        
+                    </div>
+                    
+                </div>
+                <div class="form-group col">
+                    <label>Désignation</label>
+                    <input type="text" formControlName="lib_CNSS" class="form-control"
+                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('lib_CNSS').errors }"
+                            name="lib_CNSS"
+                            (keyup)='keyuplib_CNSS($event)' 
+                            (change)='Changelib_CNSS($event)'
+                            (click)='Clicklib_CNSS($event)'
+                            (focus)="Focuscod_CNSS($event)"
+                            (focusout)="Focusoutcod_CNSS($event)"
+                            ngbTooltip="if you want to search with libéllé you must to empty input code "
+                        />
+                    <ng-container *ngFor="let validation of gettype('lib_CNSS').validations;">
+                        <div *ngIf="form.get('Entete').get('lib_CNSS').hasError(validation.name)" 
+                        class="invalid-feedback">
+                                {{validation.message}}
+                        </div>
+                    </ng-container>
+                </div>
+                
+            </div>
+            
+            
+            
+            
+            <div class="form-row" #MOD_CNSSS="ngbCollapse" [(ngbCollapse)]="isCollapsedMOD_CNSSS">
+                <div class="form-group col">
+                    <app-table-popover-simple 
+                        *ngIf="showTablePopoverSimple" 
+                        [listdatasourcee]="listMOD_CNSSS"
+                        [fildesConfigg]="fildesConfig"
+                        [listdatafiltred]="dataFiltredMOD_CNSSS" 
+                        (ifClickElement)="OnGetElementMOD_CNSSS($event)">
+                    </app-table-popover-simple>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                
+                <div class="form-group col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <fieldset class="col-md-12">
+                                <!-- <legend>Montant Prime / Plafont Prime</legend> -->
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" >Type CNSS</span>
+                                                    </div>
+                                                    <input type="number" formControlName="typ_CNSS" class="form-control"
+                                                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('typ_CNSS').errors }" />
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let validation of gettype('typ_CNSS').validations;">
+                                                    <div *ngIf=" form.get('Entete').get('typ_CNSS').errors" class="invalid-feedback">
+                                                        <div *ngIf="form.get('Entete').get('typ_CNSS').hasError(validation.name)">
+                                                            {{validation.message}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" >CNSS %</span>
+                                                    </div>
+                                                    <input type="number" formControlName="taux_CNSS" class="form-control"
+                                                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('taux_CNSS').errors }" />
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let validation of gettype('taux_CNSS').validations;">
+                                                    <div *ngIf=" form.get('Entete').get('taux_CNSS').errors" class="invalid-feedback">
+                                                        <div *ngIf="form.get('Entete').get('taux_CNSS').hasError(validation.name)">
+                                                            {{validation.message}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" >Taux patronal</span>
+                                                    </div>
+                                                    <input type="number" formControlName="txpat_CNSS" class="form-control"
+                                                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('txpat_CNSS').errors }" />
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let validation of gettype('txpat_CNSS').validations;">
+                                                    <div *ngIf=" form.get('Entete').get('txpat_CNSS').errors" class="invalid-feedback">
+                                                        <div *ngIf="form.get('Entete').get('txpat_CNSS').hasError(validation.name)">
+                                                            {{validation.message}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <fieldset class="col-md-3">
+                                                <legend>
+                                                    Karama 
+                                                </legend>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="karama_cnss" id="karama_cnss1" value="Oui" (change)="form.get('Entete').get('karama_cnss').setValue($event.target.value)" [checked]="form.get('Entete').get('karama_cnss').value=='Oui'?true:false" >
+                                                    <label class="form-check-label" for="karama_cnss1">
+                                                        Oui
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="karama_cnss" id="karama_cnss2" value="Non" (change)="form.get('Entete').get('karama_cnss').setValue($event.target.value)" [checked]="form.get('Entete').get('karama_cnss').value=='Non'?true:false" >
+                                                    <label class="form-check-label" for="karama_cnss2">
+                                                        Non
+                                                    </label>
+                                                </div>
+                                                
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- <div class="form-group col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <fieldset class="col-md-12">
+                                <legend>
+                                    Karama 
+                                </legend>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="karama_cnss" id="karama_cnss1" value="Oui" (change)="form.get('Entete').get('karama_cnss').setValue($event.target.value)" [checked]="form.get('Entete').get('karama_cnss').value=='Oui'?true:false" >
+                                    <label class="form-check-label" for="karama_cnss1">
+                                        Oui
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="karama_cnss" id="karama_cnss2" value="Non" (change)="form.get('Entete').get('karama_cnss').setValue($event.target.value)" [checked]="form.get('Entete').get('karama_cnss').value=='Non'?true:false" >
+                                    <label class="form-check-label" for="karama_cnss2">
+                                        Non
+                                    </label>
+                                </div>
+                                
+                            </fieldset>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            
+            <div class="text-center">
+                
+                <button class="btn btn-outline-success mr-1" ngbTooltip="Valider" [disabled]="form.get('Entete').invalid">Valider</button>
+                <button class="btn btn-outline-danger" type="reset" ngbTooltip="Réinstaller" (click)="onReset()">Réinstaller</button>
+            </div>
+        </form>
+    </div>
+</div>

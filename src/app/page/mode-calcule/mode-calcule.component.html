@@ -1,0 +1,85 @@
+<div class="card m-3">
+    <h5 class="card-header">Mode de calcul</h5>
+    <div class="card-body">
+        <div class="btn-group btn-group-toggle" name="radioBasic">
+            <label class="btn btn-outline-info" [ngClass]="{'active': activemodifer }">
+                <input type="radio" name="options" id="modifier" disabled> Modifier
+            </label>
+            <label class="btn btn-outline-info" [ngClass]="{'active': activeajouter }">
+                <input type="radio" name="options" id="ajouter" disabled> Ajouter
+            </label>
+        </div>
+        <form [formGroup]="form.get('Entete')" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmitEnTete()">
+            
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group col">
+                        <label>Code</label>
+                        <div class="input-group mb-3">
+                            <input type="{{gettype('cod_MC').inputType}}" formControlName="cod_MC" class="form-control"
+                                [ngClass]="{ 'is-invalid':  form.get('Entete').get('cod_MC').errors }"
+                                name="cod_MC"
+                                min="0"
+                                (keyup)='keyupcod_MC($event)' 
+                                (change)='Changecod_MC($event)'
+                                (click)='Clickcod_MC($event)'
+                                (focus)="isCollapsedMOD_Calcule=false"
+                                (focusout)="isCollapsedMOD_Calcule=true"
+                                />
+                            <div class="input-group-append">
+                                <span class="input-group-text material-icons" (click)="MOD_Calcule.toggle()" [attr.aria-expanded]="!isCollapsedMOD_Calcule"
+                                    aria-controls="collapseExample">
+                                    {{isCollapsedMOD_Calcule==false? 'expand_more':'expand_less'}}
+                                </span>
+                            </div>
+                            <ng-container *ngFor="let validation of gettype('cod_MC').validations;">
+                                <div *ngIf="form.get('Entete').get('cod_MC').hasError(validation.name)" class="invalid-feedback">
+                                    {{validation.message}}
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Libellé</label>
+                    <input type="text" formControlName="lib_MC" class="form-control"
+                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('lib_MC').errors }"
+                            name="lib_MC"
+                            (keyup)='keyuplib_MC($event)' 
+                            (change)='Changelib_MC($event)'
+                            (click)='Clicklib_MC($event)'
+                            (focus)="Focuslib_MC($event)"
+                            (focusout)="Focusoutlib_MC($event)"
+                            ngbTooltip="if you want to search with libéllé you must to empty input code "
+                        />
+                    <ng-container *ngFor="let validation of gettype('lib_MC').validations;">
+                        <div *ngIf="form.get('Entete').get('lib_MC').hasError(validation.name)" 
+                        class="invalid-feedback">
+                                {{validation.message}}
+                        </div>
+                    </ng-container>
+                </div>
+                
+            </div>
+            <div class="form-row">
+                <div class="form-group col" #MOD_Calcule="ngbCollapse" [(ngbCollapse)]="isCollapsedMOD_Calcule">
+                    <app-table-popover-simple *ngIf="showTablemodcalPopoverSimple" 
+                         [listdatasourcee]="listmodcalule"
+                         [fildesConfigg]="fildesConfig" 
+                         [listdatafiltred]="dataFiltredcod_MC"
+                         (ifClickElement)="OnGetElementcod_MC($event)">
+                     </app-table-popover-simple>
+                 </div>
+            </div>
+            
+            <div class="text-center">
+                
+                <button class="btn btn-outline-success mr-1" ngbTooltip="Valider" [disabled]="form.get('Entete').invalid">Valider</button>
+                <button class="btn btn-outline-danger" type="reset" ngbTooltip="Réinstaller" (click)="onReset($event)">Réinstaller</button>
+            </div>
+        </form>
+    </div>
+</div>

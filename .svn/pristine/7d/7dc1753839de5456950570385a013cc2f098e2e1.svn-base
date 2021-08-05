@@ -1,0 +1,29 @@
+import { Component, HostListener } from '@angular/core';
+import { fromEvent } from 'rxjs';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'Paie';
+  public isOnline: boolean = navigator.onLine;
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler(event) {
+    return false;
+    //I have used return false but you can your other functions or any query or condition
+  }
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    //console.log(this.isOnline)
+    //console.log(event)
+  }
+  constructor(){
+    // window.addEventListener("online", () => {
+    //   alert("Your browser is working online.");
+    // });
+    // window.addEventListener("offline", () => {
+    //   alert("Your browser is working offline.");
+    // });
+  }
+}

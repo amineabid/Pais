@@ -1,0 +1,789 @@
+import { Component, ElementRef, Host, OnInit, Optional, QueryList, Type, ViewChild, ViewChildren } from '@angular/core';
+import { keyValuesToMap } from '@angular/flex-layout/extended/typings/style/style-transforms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { SatPopover } from '@ncstate/sat-popover';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { map, max, repeat, repeatWhen, startWith } from 'rxjs/operators';
+import { FieldConfig } from 'src/app/share/component/componentForms/field.interface';
+import { ExampleDataSource } from 'src/app/share/component/table-edting-with-component/table-edting-with-component.component';
+import { ConventionService } from 'src/controller/convention.service';
+import { Ligne_convService } from 'src/controller/ligne_conv.service';
+import { PrimeConventionService } from 'src/controller/InterfaceService/prime-convention.service';
+import { Convention } from 'src/model/convention';
+import { Ligne_conv } from 'src/model/ligne_conv';
+import { IndemniteService } from 'src/controller/indemnite.service';
+import { Indemnite } from 'src/model/indemnite';
+import { FieldInputConfig } from 'src/app/share/component/input-dynamique/fieldInput.interface';
+
+
+@Component({
+  selector: 'app-prim-convention',
+  templateUrl: './prim-convention.component.html',
+  styleUrls: ['./prim-convention.component.scss']
+})
+export class PrimConventionComponent implements OnInit {
+  listconvention: MatTableDataSource<any>=new MatTableDataSource([]);
+  ligne_conv:Ligne_conv[]=[];
+  datasource: ExampleDataSource;
+  columnsToDisplay: any[];
+  columnsToDisplayCnv: string[];
+  showTable = false;
+  cnvCtrl = new FormControl();
+  filteredConvention: Observable<Convention[]>;
+  convention: MatTableDataSource<Convention> = new MatTableDataSource([]);
+  convention2:Convention[];
+  regConfig: FieldConfig[] = [];
+  lienreport:string;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  p:any;
+
+  form: FormGroup;
+  @ViewChild(SatPopover) popover: SatPopover;
+  elm: Convention = { cod_CONV: null, lib_CONV: "" };
+
+  @ViewChild('tableConv', { static: false }) scrollFrame: ElementRef;
+  @ViewChildren("row", { read: ElementRef }) rowElement: QueryList<ElementRef>;
+
+  fildesConfig: FieldInputConfig[] = [];
+  showdata: boolean = false;
+
+  colorrows: any = [];
+  filterdata: Ligne_conv[] = [];
+
+
+  ValidationBtn:boolean=false;
+  constructor(public conventionService: ConventionService,
+    private ligne_convService: Ligne_convService,
+    private thisInterfaceService: PrimeConventionService,
+    private indiemnuiteService: IndemniteService,
+    private _formBuilder: FormBuilder) {}
+
+//Methode OutPut
+  changeElemnt(event){
+    // function sleep(ms) {
+    //   return new Promise(resolve => setTimeout(resolve, ms));
+    // }
+    // await sleep(100);
+    // this.ligne_conv.filter(x => event.cod_LCONV==x.cod_LCONV && event.ligne_LCONV==x.ligne_LCONV)
+    if (event.column =="ind_LCONV"){
+      this.indiemnuiteService.getIndemniteList().subscribe((indem: Indemnite[]) => {
+        let valuechange = indem.find(element => String(element.cod_IND) == event.elemnt.ind_LCONV);
+        this.ligne_conv.filter(x => event.elemnt.cod_LCONV == x.cod_LCONV && event.elemnt.ligne_LCONV == x.ligne_LCONV).forEach(lc => {
+          lc.ind_LCONV = valuechange.cod_IND
+          lc.lib_LCONV = valuechange.lib_IND
+          lc.mt_LCONV = valuechange.mt_IND
+        })
+      });
+    }
+  }
+  deleteElemnt(event){
+    event.forEach(element => {
+      let index: number = this.ligne_conv.findIndex(d => d === element);
+      this.ligne_conv.splice(index, 1);
+      let indexfiltred: number = this.filterdata.findIndex(d => d === element);
+      this.filterdata.splice(indexfiltred, 1);
+    });
+  }
+  createElemnt(event){
+    let lignecn:Ligne_conv={};
+    let highest = Number.NEGATIVE_INFINITY;
+    
+    if (event.length>0){
+      event.forEach(element => {
+        if (element.ligne_LCONV > highest) highest = element.ligne_LCONV;
+        lignecn.cod_LCONV = element.cod_LCONV;
+      });
+      lignecn.ligne_LCONV = highest + 1;
+    }else{
+      
+      // console.log(Array()
+      lignecn.cod_LCONV = this.elm.cod_CONV;
+      lignecn.ligne_LCONV = 1;
+    }
+    lignecn.lib_LCONV=null;
+    lignecn.ind_LCONV = null;
+    lignecn.mt_LCONV=null;
+    this.ligne_conv.push(lignecn);
+    this.filterdata.push(lignecn);
+  }
+//Fin Methode Output
+ 
+
+  submit(event){
+    console.log(event)
+  }
+//Methode card subtitle
+  OpenHelpOnClick(event){
+
+  }
+  OpenHelp(event){
+    if (event.target.name == "cod_CONV") {
+      if(event.key!="Enter"){
+        if (event.target.value != "") {
+          let find = this.convention.data.find(a => String(a.cod_CONV) == String(event.target.value));
+          if (find!=undefined){
+            this.popover.open();
+            this.colorrows = [];
+            let el = this.rowElement.find((r) => {
+              if (String(r.nativeElement.children[this.columnsToDisplayCnv.findIndex((element) => element == event.target.name)].innerText).toLowerCase() == String(event.target.value).toLowerCase()) {
+                return r.nativeElement
+              }
+            })
+            if (el != undefined) {
+              el.nativeElement.scrollIntoView({
+                behavior: "smooth", inline: "start", block: "start"
+              });
+            }
+            this.convention.data.forEach(element => {
+              if (String(element[event.target.name]).toLowerCase() == String(event.target.value).toLowerCase()) {
+                this.colorrows.push(element)
+              }
+            });
+          } else {
+            this.popover.close();
+          }
+        } else {
+          this.popover.close();
+        }
+      } else if (event.key == "Enter"){
+        let find = this.convention.data.find(a => String(a.cod_CONV) == String(event.target.value));
+        if (find==undefined)
+        {
+          this.elm.cod_CONV = this.elm.cod_CONV = Math.max(this.convention2.map(x => x.cod_CONV)[0]) + 1;
+          this.showelement(this.elm)
+        } else if (find != undefined){
+          
+          this.showelement(find)
+        }
+      }
+       
+      this.elm.cod_CONV=event.target.value
+    }else{
+      this.elm.lib_CONV = event.target.value
+    }
+    
+  }
+  OpenHelpOnCHange(event){
+
+  }
+  //Fin methode subtitle
+  deleteAll(){
+    console.log();
+  }
+  Reset(){
+    this.ngOnInit();
+  }
+  refrech_data_table(event){
+    event = this.filterdata;
+    console.log(event)
+    // 
+  }
+  async ngOnInit(): Promise<void> {
+    //start Inisitialtisation attrubute
+    this.listconvention= new MatTableDataSource([]);
+    this.ligne_conv = [];
+    this.datasource;
+    this.columnsToDisplay=[];
+    this.columnsToDisplayCnv=[];
+    this.showTable = false;
+    this.cnvCtrl = new FormControl();
+    this.filteredConvention;
+    this.convention = new MatTableDataSource([]);
+    this.convention2=[];
+    this.regConfig  = [];
+    this.elm = { cod_CONV: null, lib_CONV: "" };
+    this.fildesConfig= [];
+    this.showdata= false;
+    this.colorrows=[];
+    this.filterdata = [];
+    //Fin Inisitialtisation attrubute
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    // await sleep(100);
+    this.conventionService.getConventionList().subscribe((conventions: Convention[]) => {
+        
+      this.fildesConfig = ConventionService.filedConvention();
+      this.showdata = true;
+      this.columnsToDisplayCnv = ConventionService.filedConvention().map(x => x.name);
+      this.convention.data = conventions;
+      this.convention2 = conventions;
+    });
+    // let listInd:Indemnite[]=[];
+    // this.indiemnuiteService.getIndemniteList().subscribe((indem: Indemnite[]) => {
+      
+    //   listInd= indem;
+    // });
+   
+    this.ligne_convService.getLigneConventionList().subscribe((lconv:Ligne_conv[])=>{
+
+      this.regConfig=Ligne_convService.filedLigneConvention();
+      
+      this.ligne_conv=lconv;
+      this.columnsToDisplay = this.regConfig;
+      this.listconvention.data=lconv;
+      this.showTable = true;
+    });
+    this.lienreport = this.ligne_convService.getReportLien()
+  }
+  getType(nameOfColumn:string){
+    // console.log(this.fildesConfig.find(w => w.name = nameOfColumn))
+    return this.fildesConfig.find(w => w.name === nameOfColumn)
+  }
+
+  showelement(elem:Convention){
+    this.fildesConfig.forEach(element => {
+      if (element.name == "cod_CONV") {
+        element.value = elem.cod_CONV
+      } else if (element.name == "lib_CONV") {
+        element.value = elem.lib_CONV
+      }
+    });
+    this.showdataligne_conv(elem.cod_CONV);
+
+
+  }
+  showtablee(event){
+    this.applyFilter(this.elm.cod_CONV)
+  }
+
+
+  verficationString(elements: string, type: string, col: string) {
+    let date: string = elements.toString();
+
+    if (type == "date") {
+
+      for (let index = 0; index < date.length; index++) {
+        if (date[index + 1] == " " && date[index] == "-" && date[index - 1] == " ") {
+          date = date.substring(0, index - 1) + "T" + date.substring(index + 1 + 1);
+        }
+      }
+      let day = date.substring(0, date.indexOf("/", 0));
+      let month = date.substring(date.indexOf("/", 0) + 1, date.indexOf("/", date.indexOf("/", 0) + 1));
+      let year = date.substring(date.indexOf("/", date.indexOf("/", date.indexOf("/", 0) + 1)) + 1, date.indexOf("T", 0));
+      // elements = moment([Number(year), Number(month), Number(day)]).format("YYYY-MM-DD");
+      this.regConfig.push(
+        {
+          type: "date",
+          label: col,
+          inputType: "date",
+          name: col,
+          validations: [
+            {
+              name: "required",
+              validator: Validators.required,
+              message: "vide"
+            }
+          ]
+        }
+      );
+      let time = date.substring(date.indexOf("T", 0), date.length);
+      //  elements = moment(year + "-" + month + "-" + day + time).format("HH:mm");
+      this.regConfig.push(
+        {
+          type: "time",
+          label: col,
+          inputType: "time",
+          name: col,
+          validations: [
+            {
+              name: "required",
+              validator: Validators.required,
+              message: "vide"
+            }
+          ]
+        }
+      );
+    } else {
+      elements = elements;
+    }
+    return elements;
+  }
+
+  applyFilter(event) {
+    let filterValue = String(event);
+    filterValue = filterValue.toLowerCase();
+    if(filterValue==""){
+      this.convention.data = this.convention2;
+      this.colorrows=[];
+      return;
+    }
+    this.convention.filterPredicate = (data: Convention, filter: string) => {
+      return String(data.cod_CONV).toLowerCase().includes(filterValue) || String(data.lib_CONV).trim().toLowerCase().includes(filterValue)
+    };
+    this.convention.filter = filterValue;
+    let a1 = this.convention.data;
+    let a2 = this.convention.filteredData;
+    a2 = a2.concat(a1.filter(item => !a2.includes(item)));
+    this.convention.data = a2;
+    this.colorrows = this.convention.filteredData;
+  }
+  getColorfind(row){
+    if(row==undefined){return '';}
+    if (this.colorrows.find(item => item == row) != undefined){
+      return 'red';
+    }else{
+      return '';
+    }
+  }
+  
+  keyspresse(event: KeyboardEvent){
+    if (event.key=="Enter"){
+      let value = (document.getElementById("a") as HTMLInputElement).value;
+      this.popover.close();
+      this.elm = this.convention.data[0];
+      // this.showdataligne_conv(this.elm.cod_CONV);
+    }
+  }
+
+  async showdataligne_conv(value){
+    // this.showTable = false
+    this.listconvention.data = this.ligne_conv;
+    let datainit = this.listconvention;
+    //  this.showTable = false;
+    if (value == undefined || value == null || value == "") { 
+      return; 
+    }else{
+      datainit.filterPredicate = (data: any, filter: string) => data["cod_LCONV"] == value;
+      datainit.filter = value;
+      if (datainit.filteredData.length==0){
+        let NewLc = { cod_LCONV: value, ligne_LCONV:1}
+        datainit.filteredData.push(NewLc)
+        this.ligne_conv.push(NewLc)
+      }
+    }
+    this.filterdata =[];
+
+    this.filterdata = datainit.filteredData;
+    
+    this.showTable = true
+    this.popover.close();
+  }
+  getallData(){
+    console.log(this.filterdata);
+    // console.log(this.elm)
+    // this.convention.data.find(a => String(a.cod_CONV).trim() === String(this.elm.cod_CONV).trim()).lib_CONV = this.elm.lib_CONV;
+    let a:boolean=false;
+    this.convention.data.forEach(element => {
+      if (element.cod_CONV == this.elm.cod_CONV){
+        element.lib_CONV = this.elm.lib_CONV;
+      }else{
+        a=true;
+      }
+    });
+    if(a){
+      this.convention.data.push(this.elm);
+    }
+    console.log(this.convention.data)
+  }
+
+
+}
+
+
+
+
+
+/*
+
+        let date: string = row[element].toString();
+        for (let index = 0; index < date.length; index++) {
+          if (date[index + 1] == " " && date[index] == "-" && date[index - 1] == " ") {
+            date = date.substring(0, index - 1) + "T" + date.substring(index + 1 + 1);
+          }
+        }
+        let day = date.substring(0, date.indexOf("/", 0));
+        let month = date.substring(date.indexOf("/", 0) + 1, date.indexOf("/", date.indexOf("/", 0) + 1));
+        let year = date.substring(date.indexOf("/", date.indexOf("/", date.indexOf("/", 0) + 1)) + 1, date.indexOf("T", 0));
+        if (moment(moment([Number(year), Number(month), Number(day)]).format("YYYY-MM-DD")).isValid()) {
+          this.verficationString(row[element], "date", element);
+        } else {
+
+        }
+        this.listconvention.data.forEach(row => {
+          if (!this.regConfig.find(e => e.name == element)) {
+            switch (typeof row[element]) {
+              case "undefined":
+                console.log(row[element]);
+                break;
+              case "object":
+                console.log("It is a object.");
+                break;
+              case "boolean":
+
+                console.log("It is a boolean.");
+                break;
+              case "number":
+                console.log("It is a number.");
+                break;
+              case "bigint":
+
+                console.log("It is a bigint.");
+                break;
+              case "symbol":
+                console.log("It is a symbol.");
+                break;
+              case "string":
+
+                // console.log("It is a string." );
+                break;
+              default:
+                console.log("No such exists!");
+                break;
+            }
+
+
+          }
+        });
+
+
+
+*/
+
+
+
+
+
+    //  (this.thisInterfaceService.getRequetePrimeConventionList()).subscribe((values: any[]) => {
+
+    //   // // this.listconvention = JSON.stringify(conventions);
+    //   // if (value == undefined || value == null || value == "") { 
+    //   //   return; 
+    //   // }else{
+    //   this.listconvention.data = values;
+
+
+    //   // console.log(Object.keys(conventions[0]))
+    //   // console.log(conventions)
+    //   // let ls: string[] = ['action'];
+
+    //   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+    //   // Props array itself!
+    //     // const propsArrayy = Object.keys(values[0]);
+    //     const propsArrayy = ["COD_LCONV", "LIGNE_LCONV", "COD_IND", "LIB_IND", "MT_LCONV"];
+    //     // console.log(this.listconvention.data)
+    //   // ls = ls.concat(Object.keys(values[0]));
+    //   this.columnsToDisplay = propsArrayy;
+    //     this.regConfig=[];
+    //   propsArrayy.forEach(element => {
+    //     // console.log(element)
+    //     if (element == "COD_IND") {
+    //       this.regConfig.push(
+    //         {
+    //           type: "input",
+    //           label: element,
+    //           inputType: "number",
+    //           name: element,
+    //           validations: [
+    //             {
+    //               name: "required",
+    //               validator: Validators.required,
+    //               message: "vide"
+    //             }
+    //           ],
+    //           column_show: true,
+    //           showpopover: true,
+    //           t: true,
+    //           table: [
+    //             {
+    //               displayedColumns: [
+    //                 {
+    //                   editing: false,
+    //                   columns: ["cod_IND", "lib_IND"],
+    //                   name: ["cod_IND", "lib_IND"],
+    //                   show: true
+    //                 },
+    //               ],
+    //               data:
+    //                 [
+    //                   { cod_IND: 1, lib_IND: "amine" },
+    //                   { cod_IND: 2, lib_IND: "amine" },
+    //                   { cod_IND: 3, lib_IND: "amine" },
+    //                 ]
+    //             }
+    //           ],
+    //         }
+    //       );
+    //     } else if (element == "LIGNE_LCONV") {
+    //       this.regConfig.push(
+    //         {
+    //           type: "input",
+    //           label: element,
+    //           inputType: "number",
+    //           name: element,
+    //           validations: [
+    //             {
+    //               name: "required",
+    //               validator: Validators.required,
+    //               message: "vide"
+    //             }
+    //           ],
+    //           column_show: true,
+    //           showpopover: false,
+    //           t: false,
+    //         }
+    //       );
+    //     } else if (element == "COD_LCONV") {
+    //       this.regConfig.push(
+    //         {
+    //           type: "input",
+    //           label: element,
+    //           inputType: "number",
+    //           name: element,
+    //           validations: [
+    //             {
+    //               name: "required",
+    //               validator: Validators.required,
+    //               message: "vide"
+    //             }
+    //           ],
+    //           column_show: false,
+    //           showpopover: false,
+    //           t: false,
+    //         }
+    //       );
+    //     } else if (element == "MT_LCONV"){
+    //       this.regConfig.push(
+    //         {
+    //           type: "input",
+    //           label: element,
+    //           inputType: "number",
+    //           name: element,
+    //           column_show: true,
+    //           showpopover: true,
+    //           validations: [
+    //             {
+    //               name: "required",
+    //               validator: Validators.required,
+    //               message: "vide"
+    //             }
+    //           ],
+    //           t: false,
+    //         }
+    //       );
+    //     } else if (element == "LIB_IND"){
+    //       this.regConfig.push(
+    //         {
+    //           type: "input",
+    //           label: element,
+    //           inputType: "text",
+    //           name: element,
+    //           column_show: true,
+    //           showpopover: false,
+    //           validations: [
+    //             {
+    //               name: "required",
+    //               validator: Validators.required,
+    //               message: "vide"
+    //             }
+    //           ],
+    //           t: false,
+    //         }
+    //       );
+
+    //     }
+
+
+    //     // if (typeof row[element]==undefined){
+    //     //   console.log(typeof row[element])
+    //     // }
+
+    //     this.datasource = new ExampleDataSource(this.listconvention.data);
+    //   });
+    //     this.regConfig.push({
+    //       type: "button",
+    //       label: "Save",
+    //       // disabled: this.conventionForm.invalid
+    //     })
+    //   // this.listconvention.filterPredicate = (data: any, filter: string) => data["COD_LCONV"] == value;
+    //   // this.listconvention.filter = value;
+    //   this.listconvention.data= this.listconvention.filteredData;
+    //   this.listconvention.data= this.listconvention.filteredData;
+    //   this.showTable = true;
+    // });
+
+
+
+
+
+
+    // console.log("show data diffrent");
+    // console.log(a1.filter(item => !a2.includes(item)))
+    // console.log(a2)
+
+    // console.log(this.convention.data)
+    // console.log("Fin show data diffrent");
+    // if ((JSON.stringify(this.convention.filteredData) != JSON.stringify(this.convention.data))===true) {
+
+    // }
+    // const result = this.convention.filter(word => 
+    //     {
+    //       word.cod_CONV.toString() == filterValue.trim().toLowerCase() ||
+    //       word.lib_CONV.trim().toLowerCase() == filterValue.trim().toLowerCase()
+    //     }
+    //   );
+    // console.log(result);
+    // this.colorrows =  a1.filter(item => !a2.includes(item));
+
+
+
+
+
+
+    // console.log(Object.keys(conventions[0]))
+    // console.log(conventions)
+    // let ls: string[] = ['action'];
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+    // Props array itself!
+    // const propsArrayy = Object.keys(values[0]);
+    // const propsArrayy = ["COD_LCONV", "LIGNE_LCONV", "COD_IND", "LIB_IND", "MT_LCONV"];
+    // // console.log(this.listconvention.data)
+    // // ls = ls.concat(Object.keys(values[0]));
+    // this.columnsToDisplay = propsArrayy;
+    // this.regConfig = [];
+    // propsArrayy.forEach(element => {
+    //   // console.log(element)
+    //   if (element == "COD_IND") {
+    //     this.regConfig.push(
+    //       {
+    //         type: "input",
+    //         label: element,
+    //         inputType: "number",
+    //         name: element,
+    //         validations: [
+    //           {
+    //             name: "required",
+    //             validator: Validators.required,
+    //             message: "vide"
+    //           }
+    //         ],
+    //         column_show: true,
+    //         showpopover: true,
+    //         t: true,
+    //         table: [
+    //           {
+    //             displayedColumns: [
+    //               {
+    //                 editing: false,
+    //                 columns: ["cod_IND", "lib_IND"],
+    //                 name: ["cod_IND", "lib_IND"],
+    //                 show: true
+    //               },
+    //             ],
+    //             data:
+    //               [
+    //                 { cod_IND: 1, lib_IND: "amine" },
+    //                 { cod_IND: 2, lib_IND: "amine" },
+    //                 { cod_IND: 3, lib_IND: "amine" },
+    //               ]
+    //           }
+    //         ],
+    //       }
+    //     );
+    //   } else if (element == "LIGNE_LCONV") {
+    //     this.regConfig.push(
+    //       {
+    //         type: "input",
+    //         label: element,
+    //         inputType: "number",
+    //         name: element,
+    //         validations: [
+    //           {
+    //             name: "required",
+    //             validator: Validators.required,
+    //             message: "vide"
+    //           }
+    //         ],
+    //         column_show: true,
+    //         showpopover: false,
+    //         t: false,
+    //       }
+    //     );
+    //   } else if (element == "COD_LCONV") {
+    //     this.regConfig.push(
+    //       {
+    //         type: "input",
+    //         label: element,
+    //         inputType: "number",
+    //         name: element,
+    //         validations: [
+    //           {
+    //             name: "required",
+    //             validator: Validators.required,
+    //             message: "vide"
+    //           }
+    //         ],
+    //         column_show: false,
+    //         showpopover: false,
+    //         t: false,
+    //       }
+    //     );
+    //   } else if (element == "MT_LCONV") {
+    //     this.regConfig.push(
+    //       {
+    //         type: "input",
+    //         label: element,
+    //         inputType: "number",
+    //         name: element,
+    //         column_show: true,
+    //         showpopover: true,
+    //         validations: [
+    //           {
+    //             name: "required",
+    //             validator: Validators.required,
+    //             message: "vide"
+    //           }
+    //         ],
+    //         t: false,
+    //       }
+    //     );
+    //   } else if (element == "LIB_IND") {
+    //     this.regConfig.push(
+    //       {
+    //         type: "input",
+    //         label: element,
+    //         inputType: "text",
+    //         name: element,
+    //         column_show: true,
+    //         showpopover: false,
+    //         validations: [
+    //           {
+    //             name: "required",
+    //             validator: Validators.required,
+    //             message: "vide"
+    //           }
+    //         ],
+    //         t: false,
+    //       }
+    //     );
+
+    //   }
+
+
+    //   // if (typeof row[element]==undefined){
+    //   //   console.log(typeof row[element])
+    //   // }
+
+    //   this.datasource = new ExampleDataSource(this.listconvention.data);
+    // });
+    // this.regConfig.push({
+    //   type: "button",
+    //   label: "Save",
+    //   // disabled: this.conventionForm.invalid
+    // })
+
+
+
+      // private _filterStates(value: any): Convention[] {
+  //   const filterValue = value.toString().toLowerCase();
+
+  //   return this.convention.filter(cnv => cnv.cod_CONV.toString().toLowerCase().indexOf(filterValue) === 0);
+  // }

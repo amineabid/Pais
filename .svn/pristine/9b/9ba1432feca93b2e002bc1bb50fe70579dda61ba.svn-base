@@ -1,0 +1,27 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+// import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs'; 
+
+import { Config } from './../../model/config';
+// import 'rxjs/add/operator/map';
+@Injectable({
+  providedIn: 'root'
+})
+export class PrimeConventionService {
+
+  private header = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': 'true' });
+  // 
+  private ip: string =null ;
+  private url:Config = Config.serverPath;
+  private baseUrl = Config.getPrimeConvention;
+  constructor(public http: HttpClient) {
+    // this.ip = this.http.get("http://api.ipify.org/?format=json");
+   }
+
+
+  async getRequetePrimeConventionList(): Promise<Observable<any>> {
+     return this.http.get<any[]>(`${this.baseUrl}` + '', { headers: this.header });
+  }
+
+}

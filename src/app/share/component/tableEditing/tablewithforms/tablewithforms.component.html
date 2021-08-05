@@ -1,0 +1,74 @@
+<div class="centrerTable">
+
+</div>
+<!-- <button mat-button >GetALlData</button> -->
+
+<div #scrollframe class="tabledataclass mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSourceMat" matSort>
+        <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay ; let i = index;">
+            <span *ngIf="i === 0">
+                <mat-header-cell *matHeaderCellDef style="height: 100%;;width: 100%;">
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                    </mat-checkbox>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" style="height: 100%;;width: 100%;">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                    </mat-checkbox>
+                </mat-cell>
+            </span>
+            <span *ngIf="i !== 0">
+
+                <mat-header-cell *matHeaderCellDef>
+                    <div *ngIf="column!='select'" mat-sort-header style="height: 100%;;width: 100%;">
+                        {{gettype(column).label}}
+                    </div>
+
+                </mat-header-cell>
+
+                <mat-cell *matCellDef="let element;let i = index;">
+                    <div *ngIf="column!='select'" style="height: 100%;;width: 100%;cursor: pointer;">
+                        <div *ngIf="gettype(column).showpopover">
+                          
+                            
+                            <app-input-dynamique 
+                            [fields]="[getInputType(column,element,i)]" 
+                            (ifClickInput)='OpenHelpOnClick($event)'
+                            (ifKeyUpInput)='OpenHelp($event)'
+                            (ifChangeInput)='OpenHelpOnCHange($event)'></app-input-dynamique>
+                            
+                            
+                            
+                        </div>
+                        <div *ngIf="!gettype(column).showpopover">
+                            <ng-container *ngIf="element[column]">
+                                <div>{{element[column]}}</div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </mat-cell>
+            </span>
+            <mat-footer-cell *matFooterCellDef style="height: 100%;;width: 100%;justify-content: center;">
+                <div style="height: 100%;;width: 100%;">
+                    <button *ngIf="column=='select'" mat-mini-fab [disabled]="btncreate" (click)="addRow()"
+                        aria-label="Example icon button with a home icon">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    <button *ngIf="column=='select'" mat-mini-fab [disabled]="btndelete" (click)="deleteRow()"
+                        aria-label="Example icon button with a home icon">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+
+            </mat-footer-cell>
+
+        </ng-container>
+        <mat-header-row style="height: 100%;;width: 100%;" *matHeaderRowDef="columnsToDisplay;sticky: true">
+        </mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnsToDisplay;let i = index;" (click)="selection.toggle(row)"></mat-row>
+        <mat-footer-row style="height: 100%;;width: 100%;" *matFooterRowDef="columnsToDisplay;sticky: true">
+        </mat-footer-row>
+    </mat-table>
+</div>

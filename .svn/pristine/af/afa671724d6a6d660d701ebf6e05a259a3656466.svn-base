@@ -1,0 +1,62 @@
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { AlbumService } from './album.service';
+import { User } from './user.model';
+import { UserService } from './user.service';
+@Component({
+  selector: 'app-table-classique',
+  templateUrl: './table-classique.component.html',
+  styleUrls: ['./table-classique.component.css']
+})
+export class TableClassiqueComponent implements OnInit {
+  form: FormGroup;
+  users: User[] = [];
+  dataSource: MatTableDataSource<any>;
+  displayedColumns = ['id', 'userId', 'title']
+  constructor(
+    private _albumService: AlbumService,
+    private _userService: UserService,
+    private _formBuilder: FormBuilder
+  ) { }
+
+  ngOnInit() {
+    this.form = this._formBuilder.group({
+      albums: this._formBuilder.array([])
+    });
+    this._albumService.getAllAsFormArray().subscribe(albums => {
+      this.form.setControl('albums', albums);
+      this.dataSource = new MatTableDataSource((this.form.get('albums') as FormArray).controls);
+      this.dataSource.filterPredicate = (data: FormGroup, filter: string) => {
+        return Object.values(data.controls).some(x => x.value == filter);
+      };
+    });
+    this._userService.getAll().subscribe(
+      users => {
+      this.users = users;
+    })
+  }
+
+  get albums(): FormArray {
+    return this.form.get('albums') as FormArray;
+  }
+
+  // On user change I clear the title of that album 
+  @Output() valueChange = new EventEmitter();
+  OnClickCell(element){
+    this.valueChange.emit(element.value);
+  }
+  onUserChange(event, album: FormGroup) {
+    const title = album.get('title');
+
+    // title.setValue(title);
+    this.valueChange.emit(album.value);
+    title.markAsUntouched();
+    // return event.taget;
+    // Notice the ngIf at the title cell definition. The user with id 3 can't set the title of the albums
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+}

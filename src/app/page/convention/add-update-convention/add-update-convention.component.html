@@ -1,0 +1,28 @@
+<div style="margin: 10px;padding: 10px;justify-content: center;" fxLayoutAlign="center none">
+    <!-- style="margin-left: 15px;" -->
+    <!-- [ngClass]="{'is-invalid':lib_CONV.errors && lib_CONV.touched}" -->
+    <!-- <mat-hint align="end">{{conventionForm.hasError('required')}} </mat-hint> -->
+    <!-- <input type="text" class="" /> -->
+    <!-- <button mat-button type="reset">Annuler</button> -->
+
+    <!-- <form class="example-form" [formGroup]="conventionForm" (ngSubmit)="onSubmit()">
+      
+        <mat-form-field class="example-full-width"style="margin-left: 15px;"
+          appearance="outline" *ngFor="let column of columnsToDisplay"  >
+          
+            <mat-label>{{column}}</mat-label>
+            <input matInput type="text" formControlName="{{column}}" class="form-control" id="{{column}}" placeholder="{{column}}">
+         
+          
+         
+        </mat-form-field>
+   
+        <div fxLayout="row" fxLayoutAlign="end none">
+            <button mat-raised-button color="primary" [disabled]="conventionForm.invalid" type="submit">Save</button>
+        </div>
+        
+
+    </form> -->
+    <dynamic-form *ngIf="this.showdata" [fields]="regConfig" (submit)="submit($event)">
+    </dynamic-form>
+</div>

@@ -1,0 +1,14 @@
+<!-- 
+    <mat-table #tableConv [dataSource]="data">
+        <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
+            <mat-header-cell *matHeaderCellDef>
+                {{column}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="showelement(element)">
+                {{element[column]}}
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columnsToDisplay;sticky: true"></mat-header-row>
+        <mat-row [ngStyle]="{'background-color': getColorfind(row) }"
+            *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+    </mat-table> -->

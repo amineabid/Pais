@@ -1,0 +1,36 @@
+<div class="example-container"  >
+
+<!-- [class.example-is-mobile]="mobileQuery.matches"
+    <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button class="example-icon" (click)='onClickbtnMenu()'
+        aria-label="Example icon-button with menu icon">
+        <mat-icon>{{iconmenu}}</mat-icon>
+    </button>
+
+    <span>Paie</span>
+    <button mat-button class="example-button" aria-label="Example icon-button with heart icon">
+        Fiche
+    </button>
+    <span class="example-spacer"></span>
+    
+</mat-toolbar> -->
+
+
+    <app-header #header></app-header>
+
+    <app-sidebar [navItems]="navItems" color="#f5f5f5"></app-sidebar>
+    <mat-sidenav-container class="example-sidenav-container"  hasBackdrop="false" [style.marginLeft.px]="mobileQuery.matches ? 0 : 65"  [style.marginTop.px]="mobileQuery.matches ? 65 : 0">
+    <!-- [mode]="mobileQuery.matches ? 'over' : 'side'"  class="mat-drawer-opened" [fixedInViewport]="mobileQuery.matches" (opened)="events.push('open!')" (closed)="events.push('close!')" style="width: 200px;" (opened)="OpenSideNav($event)" (closed)="CloseSideNav($event)" -->
+
+        <mat-sidenav-content  >
+           
+                    <router-outlet></router-outlet>
+            
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+        <app-footer></app-footer>
+        
+</div>
+
+
+

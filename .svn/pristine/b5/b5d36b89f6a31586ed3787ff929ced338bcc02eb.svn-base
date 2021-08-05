@@ -1,0 +1,16 @@
+import { Component, Host, OnInit, Optional } from '@angular/core';
+import { SatPopover } from '@ncstate/sat-popover';
+
+@Component({
+  selector: 'app-table-popover',
+  templateUrl: './table-popover.component.html',
+  styleUrls: ['./table-popover.component.css']
+})
+export class TablePopoverComponent implements OnInit {
+
+  constructor(@Optional() @Host() public popover: SatPopover) { }
+
+  ngOnInit(): void {
+  }
+
+}

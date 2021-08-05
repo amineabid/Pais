@@ -1,0 +1,157 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+/* Temporary Styles */
+/* .content {
+  height: 800px;
+  background-color: #eee;
+}
+.container-outer {
+  border: solid 3px #ffc300;
+  padding: 10px;
+}
+.container {
+  border: solid 3px #900c3f;
+  padding: 10px;
+}
+.container-inner {
+  border: solid 3px #ff5733;
+  padding: 10px;
+}
+.container-element {
+  border: solid 3px #c70039;
+  padding: 10px;
+} */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+// @import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+// @import '~@angular/material/prebuilt-themes/purple-green.css';
+
+//  @font-face
+// {
+//     font-family: 'BallparkWeiner';
+//     src: url('./assets/polices/ballpark.eot');
+//     src: url('./assets/polices/ballpark.eot?#iefix') format('embedded-opentype'),
+//          url('./assets/polices/ballpark.woff') format('woff'),
+//          url('./assets/polices/ballpark.ttf') format('truetype'),
+//          url('./assets/polices/ballpark.svg#BallparkWeiner') format('svg');
+//     font-weight: normal;
+//     font-style: normal;
+// }
+
+// @font-face
+// {
+//     font-family: 'Dayrom';
+//     src: url('./assets/polices/dayrom.eot');
+//     src: url('./assets/polices/dayrom.eot?#iefix') format('embedded-opentype'),
+//          url('./assets/polices/dayrom.woff') format('woff'),
+//          url('./assets/polices/dayrom.ttf') format('truetype'),
+//          url('./assets/polices/dayrom.svg#Dayrom') format('svg');
+//     font-weight: normal;
+//     font-style: normal;
+// }
+// @import '~@angular/material/theming'; 
+// @include mat-core();
+
+/* // Define a custom typography config that overrides the font-family as well as the
+// `headlines` and `body-1` levels. */
+/* $custom-typography: mat-typography-config(
+  $font-family: 'Roboto, monospace',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+); */
+body {
+  /* font-family: Roboto, Arial, sans-serif; */
+ font-family: 'Trebuchet MS', Arial, sans-serif;
+
+  margin: 0;
+}
+.basic-container {
+  padding: 0px;
+}
+.example-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.example-is-mobile .example-toolbar {
+  position: fixed;
+  z-index: 2;
+  background-color: #ffffff;
+}
+.example-toolbar {
+  background-color: #ffffff;
+}
+h1.example-app-name {
+  margin-left: 8px;
+}
+
+.example-sidenav-container {
+  flex: 1;
+  background: #f5f5f5;
+  box-shadow: none;
+}
+
+.example-is-mobile .example-sidenav-container {
+  flex: 1 1 auto;
+  z-index: 3;
+  background: #f5f5f5;
+    box-shadow: none;
+}
+
+
+.mat-drawer:not(.mat-drawer-side) {
+    box-shadow: none;
+}
+
+
+
+
+/* width */
+::-webkit-scrollbar {
+  position: absolute;
+    width: 5px;
+}
+::-webkit-scrollbar:hover {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: grey; 
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #000000; 
+}
+
+
+
+.mat-sort-header-container {
+    justify-content: center;
+    // display: flex;
+    cursor: pointer;
+    align-items: center;
+    letter-spacing: normal;
+    outline: 0;
+}
+
+
+.mat-drawer-inner-container {
+    overflow: visible;
+    -webkit-overflow-scrolling: touch;
+}

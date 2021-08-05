@@ -1,0 +1,135 @@
+<div class="centrerTable">
+
+</div>
+        <!-- <button mat-button >GetALlData</button> -->
+
+    <div #scrollframe class="tabledataclass mat-elevation-z8">
+        <mat-table #table [dataSource]="dataSourceMat"  matSort>
+            <!-- Checkbox Column -->
+            <!-- <ng-container matColumnDef="select"sticky>
+                <mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    </mat-checkbox>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                </mat-cell>(click)="disabledbtndelete()"
+            </ng-container> -->
+            <ng-container [matColumnDef]="column"  *ngFor="let column of columnsToDisplay ; let i = index;"  >
+                    <span *ngIf="i === 0">
+                        <mat-header-cell *matHeaderCellDef style="height: 100%;;width: 100%;">
+                            <mat-checkbox (change)="$event ? masterToggle() : null;disabledbtndelete();" 
+                            
+                            [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()" 
+                                [aria-label]="checkboxLabel()">
+                            </mat-checkbox>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" (click)="selection.toggle(row);disabledbtndelete();" style="height: 100%;;width: 100%;">
+                            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                            </mat-checkbox>
+                        </mat-cell>
+                    </span>
+                    <span *ngIf="i !== 0">
+
+                    <mat-header-cell *matHeaderCellDef>
+                        <!-- *ngIf="getShowColumn(column)" -->
+                        <div *ngIf="column!='select'" mat-sort-header style="height: 100%;;width: 100%;">
+                            {{gettype(column).label}}
+                        </div>
+                        <!-- <mat-checkbox *ngIf="column=='select'" 
+                        (change)="$event ? masterToggle() : null"
+                         [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" 
+                            [aria-label]="checkboxLabel()">
+                        </mat-checkbox> -->
+                    
+                    </mat-header-cell>
+                    
+                    <mat-cell *matCellDef="let element"  >
+                        <!-- *ngIf="getShowColumn(column)" -->
+                        <div *ngIf="column!='select'" style="height: 100%;;width: 100%;cursor: pointer;">
+                            <div *ngIf="getEditColumn(column)">
+                                <ng-container *ngIf="element[column]" class="borderColor">
+                                    <div [satPopoverAnchor]="p" (click)="p.open()" >{{element[column]}}</div>
+                                </ng-container>
+                                <span [satPopoverAnchor]="p" (click)="p.open()" class="add-comment"style="width: 100%;height: 100%;" *ngIf="!element[column]">
+                                    <!-- Add a {{getLableColumn(column)}} -->
+                                    <div style="padding:10px;"></div>
+                                </span>
+                                <!-- a.offsetWidth + 400 + [ngStyle]="{ 'width':  '400px' }" -->
+                                <sat-popover #p hasBackdrop xAlign="start" yAlign="start" (opened)="Openinline_edit()" (closed)="update(column,element, $event)">
+                                    <inline-edit *ngIf="this.closeopenInlineEdit" 
+                                    [field]="gettype(column)" 
+                                    [label]="gettype(column).label" 
+                                    [typee]="gettype(column).inputType" 
+                                    [value]="element[column]">
+                                    </inline-edit>
+                                </sat-popover>
+                            </div>
+                            <div *ngIf="!getEditColumn(column)">
+                                <ng-container *ngIf="element[column]">
+                                    <div>{{element[column]}}</div>
+                                </ng-container>
+                            </div>
+                            
+                        </div>
+                        <!-- <mat-checkbox *ngIf="column=='select'"
+                        (click)="$event.stopPropagation()"
+                         (change)="$event ? selection.toggle(element) : null"
+                            [checked]="selection.isSelected(element)" 
+                            [aria-label]="checkboxLabel(element)">
+                        </mat-checkbox> -->
+                    </mat-cell>
+                        </span>
+                    <mat-footer-cell  *matFooterCellDef   style="height: 100%;;width: 100%;justify-content: center;" >
+                        <div style="height: 100%;;width: 100%;">
+                            <button *ngIf="column=='select'" mat-mini-fab [disabled]="btncreate" (click)="CreateNew()" aria-label="Example icon button with a home icon">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                            <button *ngIf="column=='select'" mat-mini-fab [disabled]="btndelete" (click)="deleteSelect()" aria-label="Example icon button with a home icon">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <p *ngIf="column=='select'">
+                            <span  style="color: red;">{{this.chainedeValidation}}</span>
+                            </p>
+                            
+                        </div>
+
+                    </mat-footer-cell>
+                    <!-- (closed)="update(column,element, $event)" -->
+                    <!-- <div [satPopoverAnchor]="pg" (click)="pg.open()">aaaa</div>
+                    <sat-popover #pg hasBackdrop xAlign="start" yAlign="start" >
+                        <div style="background-color: gray;"></div>
+                        <dynamic-form [fields]="regConfig" (submit)="submit($event)"></dynamic-form>
+
+                        
+                    </sat-popover> -->
+                
+                
+            </ng-container>
+            <!-- Disclaimer column -->
+                                <!-- <dynamic-form [fields]="regConfig" (submit)="submit($event)"></dynamic-form> -->
+
+            <!-- <ng-container matColumnDef="disclaimer" stickyEnd>
+                <td mat-footer-cell *matFooterCellDef [attr.rowSpan]="columnsToDisplay.length">
+                    
+                </td>
+            </ng-container> -->
+            <!-- <mat-header-row *matHeaderRowDef="['select'];sticky: true"></mat-header-row> -->
+            <mat-header-row  style="height: 100%;;width: 100%;" *matHeaderRowDef="columnsToDisplay;sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnsToDisplay;" ></mat-row>
+           
+            <!-- <mat-footer-row  *matFooterRowDef="displayedColumns;sticky: true"></mat-footer-row> -->
+            <mat-footer-row style="height: 100%;;width: 100%;" *matFooterRowDef="columnsToDisplay;sticky: true"></mat-footer-row>
+
+            <!-- *matFooterRowDef="displayedColumns;sticky: true" -->
+        </mat-table>
+            </div>
+<!-- <mat-paginator  [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
+
+

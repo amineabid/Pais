@@ -1,0 +1,57 @@
+
+<!-- <router-outlet></router-outlet> -->
+
+<!-- <mat-card>
+    <mat-card-header>
+        <div fxLayout="row" fxLayoutAlign="center stretch">
+            <div fxflex="80">Liste Convention</div>
+        
+            <div fxflex="20">Create Convention</div>
+        </div>
+        
+    </mat-card-header>
+    <mat-card-content>
+        
+        
+    </mat-card-content>
+</mat-card> -->
+<app-sidenavright><mat-spinner></mat-spinner></app-sidenavright>
+
+<mat-sidenav-container  hasBackdrop="false">
+                <!-- routerLink="/admin/convention" routerLinkActive="router-link-active"  -->
+                <!-- <router-outlet></router-outlet> -->
+                <!-- <ng-container *ngComponentOutlet="dymmyComponent"></ng-container> -->
+                <!-- (opened)="menufunction()" (closeed)="menufunction();"  -->
+
+    <!-- <mat-sidenav #sideNav mode="over"  fixedInViewport="true" fixedTopGap="64" [style.width.px]="mobileQuery.matches ? 300 : 800"  position="end">
+
+        <a style="float: right;"
+            (click)="toggelsidenav('Create')" mat-button>
+            <mat-icon>clear</mat-icon>
+        </a>
+            
+        <ng-container #modifierCompoent></ng-container>
+        
+    </mat-sidenav> -->
+            <!-- (open)="menufunction('SideNav Opened')" opened="false"  *ngIf="showModal" (onClose)="modalClosed($event)" <app-add-update-convention></app-add-update-convention> -->
+
+    <!-- <app-sidenavright></app-sidenavright> -->
+
+    <mat-sidenav-content>
+        <div fxLayout="row" fxLayoutAlign="center none">
+            <div fxFlex="80">
+                <!-- [routerLink]="['add_update']" <button (click)="sideNav.toggle()" mat-button>Crée Convention</button> -->
+                <!-- <a  routerLink="/admin/list" routerLinkActive="router-link-active"(click)="sideNav.toggle()"  mat-button>Crée Convention</a> -->
+                <!-- <a  (click)="toggelSideBarRight()"  mat-button>SideBarRightOpen | Close</a> -->
+                <a  (click)="toggelsidenav('Create')"  mat-button>Create Convention</a>
+                <!-- <a  (click)="toggelsidenav('Delete')"  mat-button>Delete Convention</a> -->
+                <!-- <a  (click)="toggelsidenav('List')"  mat-button>List Convention</a> -->
+                <a  href="http://localhost:9090/conv/report/pdf" target="_blank" mat-button>Export En PDF</a>
+                <app-list-convention #listConv ></app-list-convention>
+                <!-- <router-outlet></router-outlet> -->
+            </div>
+            
+        </div>
+        <!-- <button (click)="onTogglePosition(nav_position)" mat-button>Toggle Position {{ nav_position }}</button> -->
+    </mat-sidenav-content>
+</mat-sidenav-container>

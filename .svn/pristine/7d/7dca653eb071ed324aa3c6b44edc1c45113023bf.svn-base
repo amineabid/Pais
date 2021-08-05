@@ -1,0 +1,185 @@
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["layout-layout-full-layout-full-module"],{
+
+/***/ "./src/app/layout/layout-full/layout-full.component.ts":
+/*!*************************************************************!*\
+  !*** ./src/app/layout/layout-full/layout-full.component.ts ***!
+  \*************************************************************/
+/*! exports provided: LayoutFullComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayoutFullComponent", function() { return LayoutFullComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _angular_cdk_layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/cdk/layout */ "./node_modules/@angular/cdk/__ivy_ngcc__/fesm2015/layout.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+
+
+
+
+class LayoutFullComponent {
+    constructor(changeDetectorRef, media) {
+        this.mobileQuery = media.matchMedia('(max-width: 600px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addListener(this._mobileQueryListener);
+    }
+    ngOnDestroy() {
+        this.mobileQuery.removeListener(this._mobileQueryListener);
+    }
+    ngOnInit() {
+    }
+}
+LayoutFullComponent.ɵfac = function LayoutFullComponent_Factory(t) { return new (t || LayoutFullComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_cdk_layout__WEBPACK_IMPORTED_MODULE_1__["MediaMatcher"])); };
+LayoutFullComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: LayoutFullComponent, selectors: [["app-layout-full"]], decls: 1, vars: 0, template: function LayoutFullComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "router-outlet");
+    } }, directives: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterOutlet"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2xheW91dC9sYXlvdXQtZnVsbC9sYXlvdXQtZnVsbC5jb21wb25lbnQuY3NzIn0= */"] });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](LayoutFullComponent, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
+        args: [{
+                selector: 'app-layout-full',
+                templateUrl: './layout-full.component.html',
+                styleUrls: ['./layout-full.component.css']
+            }]
+    }], function () { return [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }, { type: _angular_cdk_layout__WEBPACK_IMPORTED_MODULE_1__["MediaMatcher"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "./src/app/layout/layout-full/layout-full.module.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/layout/layout-full/layout-full.module.ts ***!
+  \**********************************************************/
+/*! exports provided: LayoutFullModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayoutFullModule", function() { return LayoutFullModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
+/* harmony import */ var src_app_share_share_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/share/share.module */ "./src/app/share/share.module.ts");
+/* harmony import */ var _layout_full_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./layout-full.component */ "./src/app/layout/layout-full/layout-full.component.ts");
+/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material/toolbar */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/toolbar.js");
+/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/__ivy_ngcc__/fesm2015/icon.js");
+/* harmony import */ var _layout_full_routing__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./layout-full.routing */ "./src/app/layout/layout-full/layout-full.routing.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+
+
+
+
+// import { HomeComponent } from 'src/app/page/home/home.component';
+// import { RouterModule } from '@angular/router';
+
+// import { MatSidenavModule } from '@angular/material/sidenav';
+
+// import { MatCardModule } from '@angular/material/card';
+// import { MatButtonModule } from '@angular/material/button';
+// import { MatFormFieldModule } from '@angular/material/form-field';
+// import { MatInputModule } from '@angular/material/input';
+
+
+
+class LayoutFullModule {
+}
+LayoutFullModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({ type: LayoutFullModule });
+LayoutFullModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({ factory: function LayoutFullModule_Factory(t) { return new (t || LayoutFullModule)(); }, imports: [[
+            _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+            src_app_share_share_module__WEBPACK_IMPORTED_MODULE_2__["ShareModule"],
+            _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_4__["MatToolbarModule"],
+            // MatSidenavModule,
+            _angular_material_icon__WEBPACK_IMPORTED_MODULE_5__["MatIconModule"],
+            // MatCardModule,
+            // MatButtonModule,
+            // MatFormFieldModule,
+            // MatInputModule,
+            _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"],
+            // BrowserAnimationsModule,
+            _layout_full_routing__WEBPACK_IMPORTED_MODULE_6__["LayoutFullRoutingModule"]
+        ]] });
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsetNgModuleScope"](LayoutFullModule, { declarations: [_layout_full_component__WEBPACK_IMPORTED_MODULE_3__["LayoutFullComponent"]], imports: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+        src_app_share_share_module__WEBPACK_IMPORTED_MODULE_2__["ShareModule"],
+        _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_4__["MatToolbarModule"],
+        // MatSidenavModule,
+        _angular_material_icon__WEBPACK_IMPORTED_MODULE_5__["MatIconModule"],
+        // MatCardModule,
+        // MatButtonModule,
+        // MatFormFieldModule,
+        // MatInputModule,
+        _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"],
+        // BrowserAnimationsModule,
+        _layout_full_routing__WEBPACK_IMPORTED_MODULE_6__["LayoutFullRoutingModule"]] }); })();
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](LayoutFullModule, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"],
+        args: [{
+                declarations: [_layout_full_component__WEBPACK_IMPORTED_MODULE_3__["LayoutFullComponent"]],
+                imports: [
+                    _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                    src_app_share_share_module__WEBPACK_IMPORTED_MODULE_2__["ShareModule"],
+                    _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_4__["MatToolbarModule"],
+                    // MatSidenavModule,
+                    _angular_material_icon__WEBPACK_IMPORTED_MODULE_5__["MatIconModule"],
+                    // MatCardModule,
+                    // MatButtonModule,
+                    // MatFormFieldModule,
+                    // MatInputModule,
+                    _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"],
+                    // BrowserAnimationsModule,
+                    _layout_full_routing__WEBPACK_IMPORTED_MODULE_6__["LayoutFullRoutingModule"]
+                ]
+            }]
+    }], null, null); })();
+
+
+/***/ }),
+
+/***/ "./src/app/layout/layout-full/layout-full.routing.ts":
+/*!***********************************************************!*\
+  !*** ./src/app/layout/layout-full/layout-full.routing.ts ***!
+  \***********************************************************/
+/*! exports provided: LayoutFullRoutingModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LayoutFullRoutingModule", function() { return LayoutFullRoutingModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+/* harmony import */ var _layout_full_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./layout-full.component */ "./src/app/layout/layout-full/layout-full.component.ts");
+
+// import { CommonModule } from '@angular/common';
+
+
+
+
+// import { LayoutFullComponent } from './layout-full.component';
+// import { HomeComponent } from 'src/app/page/home/home.component';
+// 
+const routes = [
+    {
+        path: '',
+        component: _layout_full_component__WEBPACK_IMPORTED_MODULE_2__["LayoutFullComponent"],
+        children: [{
+                path: '',
+                loadChildren: () => Promise.all(/*! import() | page-home-home-module */[__webpack_require__.e("default~page-convention-convention-module~page-home-home-module"), __webpack_require__.e("page-home-home-module")]).then(__webpack_require__.bind(null, /*! ./../../page/home/home.module */ "./src/app/page/home/home.module.ts")).then(module => module.HomeModule)
+            }
+        ]
+    },
+];
+class LayoutFullRoutingModule {
+}
+LayoutFullRoutingModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineNgModule"]({ type: LayoutFullRoutingModule });
+LayoutFullRoutingModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjector"]({ factory: function LayoutFullRoutingModule_Factory(t) { return new (t || LayoutFullRoutingModule)(); }, imports: [[_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"].forChild(routes)], _angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]] });
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsetNgModuleScope"](LayoutFullRoutingModule, { imports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]], exports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]] }); })();
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](LayoutFullRoutingModule, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"],
+        args: [{
+                imports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"].forChild(routes)],
+                exports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]]
+            }]
+    }], null, null); })();
+
+
+/***/ })
+
+}]);
+//# sourceMappingURL=layout-layout-full-layout-full-module.js.map

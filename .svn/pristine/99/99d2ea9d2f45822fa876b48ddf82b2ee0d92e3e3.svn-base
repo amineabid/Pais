@@ -1,0 +1,16 @@
+import { Component, HostListener } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'Paie';
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler(event) {
+    return false;
+    //I have used return false but you can your other functions or any query or condition
+  }
+
+}

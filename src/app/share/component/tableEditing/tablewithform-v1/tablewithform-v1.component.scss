@@ -1,0 +1,110 @@
+  .pagintor{
+    display: inline-flex;
+    width: 100%;
+  }
+.tabledataclass{
+  // max-height: max-content;
+  //justify-content: center;
+  margin-top: 32px;
+  // padding-left: 32px;
+  // padding-right: 32px;
+  border: 1px solid rgb(224 224 224);
+}
+
+.table-responsive {
+  display: block;
+  width: auto;
+  margin: auto;
+    overflow: auto;
+    max-height: 255px!important;
+  table.mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    margin: 0px;
+  }
+  tr.mat-header-row{
+    border: 1px solid rgb(224 224 224);
+  }
+  tr.mat-row,
+  tr.mat-header-row,
+   tr.mat-footer-row{
+      display: table-row;
+      
+      
+  }
+  // th:last-child {
+  //   // input {
+      
+  //   // }
+  //   // width: calc(100% - 50px);
+  //   div{
+  //     width: 100px;
+  //     box-sizing: border-box;
+  //   }
+
+  // }
+  td.mat-cell:hover {
+    background-color: silver;
+    }
+    th.mat-header-cell {
+    
+    margin: auto;
+        text-align: center;
+        justify-content: center;
+    }
+  td.mat-cell,
+  th.mat-header-cell,
+  th.mat-footer-cell{
+    // border-left: 1px solid #757575;
+    // border-right: 1px solid #757575;
+    div{
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+  td:first-child,
+  th:first-child{
+    
+    width:10px;
+  }
+  td.mat-cell,
+  th.mat-header-cell {
+      word-wrap: initial;
+      display: table-cell;
+      padding: 0px 0px;
+      line-break: unset;
+      width: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: middle;
+      margin: auto;
+      justify-content: center;
+  }
+  tr.mat-row{
+    height: 40px;
+  }
+  tr.mat-header-row{
+    height: 50px;
+  }
+  
+}
+
+
+table tr.selected, mat-table mat-row.selected {
+  background-color: seagreen;
+}
+tr:focus {
+    outline: none !important;
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  box-shadow: 0px 0px 5px #f7d304e7;
+  -webkit-box-shadow: 0px 0px 5px #f7d304e7;
+  -moz-box-shadow: 0px 0px 5px #f7d304e7;
+  background: #0d64b6;
+  /* color: white; */
+  -webkit-text-fill-color: aliceblue
+  
+}

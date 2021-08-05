@@ -1,0 +1,82 @@
+<div class="card m-3">
+    <h5 class="card-header">Comptabile</h5>
+    <div class="card-body">
+        <div class="btn-group btn-group-toggle" name="radioBasic">
+            <label class="btn btn-outline-info" [ngClass]="{'active': activemodifer }">
+                <input type="radio" name="options" id="modifier" disabled> Modifier
+            </label>
+            <label class="btn btn-outline-info" [ngClass]="{'active': activeajouter }">
+                <input type="radio" name="options" id="ajouter" disabled> Ajouter
+            </label>
+        </div>
+        <form [formGroup]="form.get('Entete')" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmitEnTete()">
+            
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group col">
+                        <label>Code</label>
+                        <div class="input-group mb-3">
+                            <input type="{{gettype('compt_compte').inputType}}" formControlName="compt_compte" class="form-control"
+                                [ngClass]="{ 'is-invalid':  form.get('Entete').get('compt_compte').errors }"
+                                name="compt_compte"
+                                min="0"
+                                (keyup)='keyupcompt_compte($event)' 
+                                (change)='Changecompt_compte($event)'
+                                (click)='Clickcompt_compte($event)'
+                                (focus)="isCollapsedCompte_comptable=false"
+                                (focusout)="isCollapsedCompte_comptable=true"
+                                />
+                            <div class="input-group-append">
+                                <span class="input-group-text material-icons" (click)="Compte_comptable.toggle()" [attr.aria-expanded]="!isCollapsedCompte_comptable"
+                                    aria-controls="collapseExample">
+                                    {{isCollapsedCompte_comptable==false? 'expand_more':'expand_less'}}
+                                </span>
+                            </div>
+                            <ng-container *ngFor="let validation of gettype('compt_compte').validations;">
+                                <div *ngIf="form.get('Entete').get('compt_compte').hasError(validation.name)" class="invalid-feedback">
+                                    {{validation.message}}
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Libellé</label>
+                    <input type="text" formControlName="lib_compte" class="form-control"
+                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('lib_compte').errors }"
+                            name="lib_compte"
+                            (keyup)='keyuplib_compte($event)' 
+                            (change)='Changelib_compte($event)'
+                            (click)='Clicklib_compte($event)'
+                            (focus)="Focuslib_compte($event)"
+                            (focusout)="Focusoutlib_compte($event)"
+                            ngbTooltip="if you want to search with libéllé you must to empty input code "
+                        />
+                    <ng-container *ngFor="let validation of gettype('lib_compte').validations;">
+                        <div *ngIf="form.get('Entete').get('lib_compte').hasError(validation.name)" 
+                        class="invalid-feedback">
+                                {{validation.message}}
+                        </div>
+                    </ng-container>
+                </div>
+                
+            </div>
+            <div class="form-row">
+                <div class="form-group col" #Compte_comptable="ngbCollapse" [(ngbCollapse)]="isCollapsedCompte_comptable">
+                    <app-table-popover-simple *ngIf="showTablemodcalPopoverSimple" 
+                         [listdatasourcee]="listCompte_comptable"
+                         [fildesConfigg]="fildesConfig" 
+                         [listdatafiltred]="dataFiltredcompt_compte"
+                         (ifClickElement)="OnGetElementcompt_compte($event)">
+                     </app-table-popover-simple>
+                 </div>
+            </div>
+            
+            <div class="text-center">
+                
+                <button class="btn btn-outline-success mr-1" ngbTooltip="Valider" [disabled]="form.get('Entete').invalid">Valider</button>
+                <button class="btn btn-outline-danger" type="reset" ngbTooltip="Réinstaller" (click)="onReset($event)">Réinstaller</button>
+            </div>
+        </form>
+    </div>
+</div>

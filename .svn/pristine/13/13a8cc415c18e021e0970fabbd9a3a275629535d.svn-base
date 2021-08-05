@@ -1,0 +1,55 @@
+<!-- <mat-card>
+    <mat-card-content>
+            <mat-form-field appearance="fill">
+                <mat-label>Fill form field</mat-label>
+                <input matInput placeholder="Placeholder">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Enter your password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <br>
+            <button mat-button [routerLink]="['/convention']" routerLinkActive="router-link-active" color="primary">Connexion</button>
+            
+    
+    </mat-card-content>
+    displayedColumns
+    initialData
+</mat-card> -->
+<mat-card >
+    <mat-card-header>
+        <mat-card-title>Convention</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="example-form">
+            <mat-form-field>
+                <input matInput placeholder="Code Convention" aria-label="Code" [matAutocomplete]="auto" [formControl]="cnvCtrl">
+                <mat-autocomplete autoActiveFirstOption  #auto="matAutocomplete">
+                    <mat-option *ngFor="let cnv of filteredConvention | async" [value]="cnv.cod_CONV">
+                        <span>{{cnv.cod_CONV}}</span> |
+                        <small>{{cnv.lib_CONV}}</small>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Libélé Convention" aria-label="Libélé" [matAutocomplete]="autoo" [formControl]="cnvCtrl">
+                <mat-autocomplete autoActiveFirstOption  #autoo="matAutocomplete">
+                    <mat-option *ngFor="let cnv of filteredConvention | async" [value]="cnv.lib_CONV">
+                        <span>{{cnv.cod_CONV}}</span> |
+                        <small>{{cnv.lib_CONV}}</small>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+    </mat-card-actions>
+</mat-card>
+<app-table-edting-with-component *ngIf="showTable" [regConfig]="regConfig" [displayedColumns]="columnsToDisplay" [initialData]="listconvention" ></app-table-edting-with-component>

@@ -1,0 +1,406 @@
+
+<div class="tabledataclass">
+    <div >
+        <button mat-mini-fab color="primary" [disabled]="btncreate" (click)="CreateNew()" aria-label="Example icon button with a home icon">
+            <mat-icon>add</mat-icon>
+        </button>
+
+        <button mat-mini-fab color="primary" [disabled]="btndelete" (click)="openDialog()" aria-label="Example icon button with a home icon">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <mat-slide-toggle color="primary" (click)="CheckedPagination()">Pagination</mat-slide-toggle>
+    
+        <p>
+            <span style="color: red;">{{this.chainedeValidation}}</span>
+        </p>
+    </div>
+    <mat-divider [style.marginB]="10"></mat-divider>
+    <div #scrollframe class="table-responsive">
+
+
+        <table #testtable mat-table [dataSource]="dataSourceMat" matSort 
+        cdkDropList 
+           cdkDropListOrientation="horizontal"
+           (cdkDropListDropped)="tableDrop($event)"
+        class="mat-elevation-z8">
+
+            <!-- <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef [attr.colspan]="columnsToDisplay.length" >
+                    
+                </th>
+            </ng-container> -->
+
+            <ng-container [matColumnDef]="column.field" *ngFor="let column of columns ; let i = index;">
+                <!-- <span *ngIf="i === 0">
+                    <th class="headertablemove" mat-header-cell *matHeaderCellDef >
+                        
+                    </th>
+                    <td mat-cell *matCellDef="let row" >
+                        
+                    </td>
+                    <th mat-footer-cell *matFooterCellDef style="justify-content: center;">
+                        
+                    </th>
+                </span> -->
+                <span >
+                    <th  class="headertablemove"  mat-header-cell *matHeaderCellDef 
+                    cdkDrag cdkDragLockAxis="x" cdkDragBoundary="mat-header-row"
+                    >
+                        <div  *ngIf="column.field!='select'" mat-sort-header="{{column.field}}">
+                            {{gettype(column.field).label}}
+                        </div>
+                        <div *ngIf="i === 0">
+                            <mat-checkbox
+                            color="primary"
+                            (change)="$event ? masterToggle() : null;disabledbtndelete();"
+                                [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                [aria-label]="checkboxLabel()">
+                            </mat-checkbox>
+                        </div>
+                    </th>
+                    <!-- [style.width]="gettype(column.field).width==undefined?100:gettype(column.field).width" -->
+                    <td mat-cell  *matCellDef="let element; let ie = index;" (click)="selection.toggle(element);disabledbtndelete();">
+                        <div *ngIf="column.field!='select'"  style="cursor: pointer;">
+                            <div *ngIf="getEditColumn(column.field)">
+                                <ng-container *ngIf="element[column.field]" class="borderColor">
+                                    <div [satPopoverAnchor]="p" (click)="p.open()">
+                                       <div [align]="gettype(column.field).inputType!='number'?'start':'end'">
+                                           {{element[column.field]}}
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <span [satPopoverAnchor]="p" (click)="p.open()" class="add-comment"
+                                    *ngIf="!element[column.field]">
+                                        <input #inputadd matInput  style="display: block;box-sizing: border-box;" [satPopoverAnchor]="p" (click)="p.open()"
+                                            [disabled]="this.initialData.length==0" placeholder="{{gettype(column.field).label}}"
+                                            value="{{gettype(column.field).value}}" type="{{gettype(column.field).inputType}}" autocomplete="off">
+                                        <!-- <mat-form-field  style="display: block;box-sizing: border-box;width: auto;" class="example-full-width">
+                                            <mat-label>{{gettype(column.field).label}}</mat-label>
+                                            
+
+                                        </mat-form-field> -->
+                                    
+                                </span>
+                                <sat-popover #p hasBackdrop xAlign="start" yAlign="start" (opened)="Openinline_edit()"
+                                    (closed)="update(column.field,element, $event)">
+                                    <inline-edit *ngIf="this.closeopenInlineEdit" [field]="gettype(column.field)"
+                                        [label]="gettype(column.field).label" [typee]="gettype(column.field).inputType"
+                                        [value]="element[column.field]">
+                                    </inline-edit>
+                                </sat-popover>
+                            </div>
+                            <div *ngIf="!getEditColumn(column.field)">
+                                <ng-container *ngIf="element[column.field]">
+                                    <div [align]="gettype(column.field).inputType!='number'?'start':'end'">{{element[column.field]}}</div>
+                                </ng-container>
+                            </div>
+
+                        </div>
+                        <div *ngIf="i === 0" >
+                            <mat-checkbox 
+                            color="primary"
+                            (click)="$event.stopPropagation();" (change)="$event ? selection.toggle(element) : null;disabledbtndelete();"
+                                [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)">
+                            </mat-checkbox>
+                        </div>
+                    </td>
+                    <!-- <th mat-footer-cell *matFooterCellDef="" style="justify-content: center;">
+
+                        <div *ngIf="column.field!='select'" style="cursor: pointer;">
+                            <div *ngIf="getEditColumn(column.field)">
+                                <ng-container *ngIf="getderbierRow(column.field)" class="borderColor">
+                                    <div [satPopoverAnchor]="p" (click)="p.open()">
+                                        {{getderbierRow(column.field)}}
+                                    </div>
+                                </ng-container>
+                                <span class="add-comment" *ngIf="!getderbierRow(column.field)">
+                                    <div style="margin:auto;padding:10px;">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>{{gettype(column.field).label}}</mat-label>
+                                            <input matInput [satPopoverAnchor]="p" (click)="p.open()"
+                                                [disabled]="this.initialData.length==0"
+                                                placeholder="{{gettype(column.field).label}}"
+                                                value="{{getderbierRow(column.field)}}"
+                                                type="{{gettype(column.field).inputType}}" autocomplete="off">
+                                        </mat-form-field>
+                                    </div>
+                                </span>
+                                <sat-popover #p hasBackdrop xAlign="start" yAlign="start" (opened)="Openinline_edit()"
+                                    (closed)="update(column.field,this.initialData[this.initialData.length-1], $event)">
+                                    <inline-edit *ngIf="this.closeopenInlineEdit" [field]="gettype(column.field)"
+                                        [label]="gettype(column.field).label" [typee]="gettype(column.field).inputType"
+                                        [value]="getderbierRow(column.field)">
+                                    </inline-edit>
+                                </sat-popover>
+                            </div>
+                            <div *ngIf="!getEditColumn(column.field)">
+                                <ng-container *ngIf="getderbierRow(column.field)">
+                                    <div>{{getderbierRow(column.field)}}</div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div *ngIf="i === 0">
+                            <mat-checkbox (click)="$event.stopPropagation();"
+                                color="primary"
+                                (change)="$event ? selection.toggle(this.initialData[this.initialData.length-1]) : null;"
+                                [checked]="selection.isSelected(this.initialData[this.initialData.length-1])"
+                                [aria-label]="checkboxLabel(this.initialData[this.initialData.length-1])">
+                            </mat-checkbox>
+                        </div>
+
+                    </th> -->
+                </span>
+
+            </ng-container>
+            <!-- <tr mat-header-row *matHeaderRowDef="['Action'];sticky: true"></tr> -->
+            <tr mat-header-row #tableHeaderRow *matHeaderRowDef="columnsToDisplay;sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+            <!-- <tr mat-footer-row *matFooterRowDef="columnsToDisplay;sticky: true"></tr> -->
+        </table>
+
+    </div>
+    <mat-paginator
+    #paginationevent
+    [disabled]="this.isChecked" [pageSize]="this.isChecked?this.initialData.length+1:5"
+        [pageSizeOptions]="[this.initialData.length+1]" showFirstLastButtons
+        (page)="pageEvent($event)"
+        sticky></mat-paginator>
+
+
+</div>
+
+    <!-- Version 2 -->
+    <!-- <mat-table [dataSource]="dataSource" class="mat-elevation-z8" cdkDropListGroup matSort>
+        <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
+            <mat-header-cell *matHeaderCellDef cdkDropList cdkDropListLockAxis="x" cdkDropListOrientation="horizontal"
+                (cdkDropListDropped)="dropListDropped($event, i)" cdkDrag (cdkDragStarted)="dragStarted($event, i)"
+                [cdkDragData]="{name: column.field, columIndex: i}" mat-sort-header>
+                {{ column.field }}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row[column.field] }} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+    </mat-table> -->
+<!-- 
+
+<div class="tabledataclass">
+    <div #scrollframe class="table-responsive">
+
+
+        <table #testtable mat-table [dataSource]="dataSourceMat" matSort cdkDropListGroup class="mat-elevation-z8">
+
+            <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef [attr.colspan]="columnsToDisplay.length">
+                    <div style="float: left;">
+                        <button mat-mini-fab [disabled]="btncreate" (click)="CreateNew()"
+                            aria-label="Example icon button with a home icon">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <button mat-mini-fab [disabled]="btndelete" (click)="deleteSelect()"
+                            aria-label="Example icon button with a home icon">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <mat-slide-toggle (click)="CheckedPagination()">Pagination</mat-slide-toggle>
+
+                        <p>
+                            <span style="color: red;">{{this.chainedeValidation}}</span>
+                        </p>
+                    </div>
+                </th>
+            </ng-container>
+
+            <ng-container [matColumnDef]="column.field" *ngFor="let column of columns ; let i = index;">
+                <span *ngIf="i === 0">
+                    <th mat-header-cell *matHeaderCellDef cdkDropList cdkDropListLockAxis="x"
+                        cdkDropListOrientation="horizontal" (cdkDropListDropped)="dropListDropped($event, i)" cdkDrag
+                        (cdkDragStarted)="dragStarted($event, i)" [cdkDragData]="{name: column.field, columIndex: i}">
+                        <mat-checkbox (change)="$event ? masterToggle() : null;disabledbtndelete();"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row" (click)="selection.toggle(row);">
+                        <mat-checkbox (click)="$event.stopPropagation();"
+                            (change)="$event ? selection.toggle(row) : null;" [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+                        </mat-checkbox>
+                    </td>
+                    <th mat-footer-cell *matFooterCellDef style="justify-content: center;">
+                        <mat-checkbox (click)="$event.stopPropagation();"
+                            (change)="$event ? selection.toggle(this.initialData[this.initialData.length-1]) : null;"
+                            [checked]="selection.isSelected(this.initialData[this.initialData.length-1])"
+                            [aria-label]="checkboxLabel(this.initialData[this.initialData.length-1])">
+                        </mat-checkbox>
+                    </th>
+                </span>
+                <span *ngIf="i !== 0">
+                    <th mat-header-cell *matHeaderCellDef cdkDropList cdkDropListLockAxis="x"
+                        cdkDropListOrientation="horizontal" (cdkDropListDropped)="dropListDropped($event, i)" cdkDrag
+                        (cdkDragStarted)="dragStarted($event, i)" [cdkDragData]="{name: column.field, columIndex: i}">
+                        <div *ngIf="column.field!='select'" mat-sort-header="{{column.field}}">
+                            {{gettype(column.field).label}}
+                        </div>
+
+                    </th>
+
+                    <td mat-cell *matCellDef="let element; let ie = index;">
+                        <div *ngIf="column.field!='select'" style="cursor: pointer;">
+                            <div *ngIf="getEditColumn(column.field)">
+                                <ng-container *ngIf="element[column.field]" class="borderColor">
+                                    <div [satPopoverAnchor]="p" (click)="p.open()">{{element[column.field]}}</div>
+                                </ng-container>
+                                <span [satPopoverAnchor]="p" (click)="p.open()" class="add-comment"
+                                    *ngIf="!element[column.field]">
+                                    <div style="padding:10px;"></div>
+                                </span>
+                                <sat-popover #p hasBackdrop xAlign="start" yAlign="start" (opened)="Openinline_edit()"
+                                    (closed)="update(column.field,element, $event)">
+                                    <inline-edit *ngIf="this.closeopenInlineEdit" [field]="gettype(column.field)"
+                                        [label]="gettype(column.field).label" [typee]="gettype(column.field).inputType"
+                                        [value]="element[column.field]">
+                                    </inline-edit>
+                                </sat-popover>
+                            </div>
+                            <div *ngIf="!getEditColumn(column.field)">
+                                <ng-container *ngIf="element[column.field]">
+                                    <div>{{element[column.field]}}</div>
+                                </ng-container>
+                            </div>
+
+                        </div>
+                    </td>
+                    <th mat-footer-cell *matFooterCellDef="" style="justify-content: center;">
+
+                        <div *ngIf="column.field!='select'" style="cursor: pointer;">
+                            <div *ngIf="getEditColumn(column.field)">
+                                <ng-container *ngIf="getderbierRow(column.field)" class="borderColor">
+                                    <div [satPopoverAnchor]="p" (click)="p.open()">
+                                        {{getderbierRow(column.field)}}
+                                    </div>
+                                </ng-container>
+                                <span class="add-comment" *ngIf="!getderbierRow(column.field)">
+                                    <div style="margin:auto;padding:10px;">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>{{gettype(column.field).label}}</mat-label>
+                                            <input matInput [satPopoverAnchor]="p" (click)="p.open()"
+                                                [disabled]="this.initialData.length==0"
+                                                placeholder="{{gettype(column.field).label}}"
+                                                value="{{getderbierRow(column.field)}}"
+                                                type="{{gettype(column.field).inputType}}" autocomplete="off">
+                                        </mat-form-field>
+                                    </div>
+                                </span>
+                                <sat-popover #p hasBackdrop xAlign="start" yAlign="start" (opened)="Openinline_edit()"
+                                    (closed)="update(column.field,this.initialData[this.initialData.length-1], $event)">
+                                    <inline-edit *ngIf="this.closeopenInlineEdit" [field]="gettype(column.field)"
+                                        [label]="gettype(column.field).label" [typee]="gettype(column.field).inputType"
+                                        [value]="getderbierRow(column.field)">
+                                    </inline-edit>
+                                </sat-popover>
+                            </div>
+                            <div *ngIf="!getEditColumn(column.field)">
+                                <ng-container *ngIf="getderbierRow(column.field)">
+                                    <div>{{getderbierRow(column.field)}}</div>
+                                </ng-container>
+                            </div>
+                        </div>
+
+
+                    </th>
+                </span>
+
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['Action'];sticky: true"></tr>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+            <tr mat-footer-row *matFooterRowDef="columnsToDisplay;sticky: true"></tr>
+        </table>
+
+    </div>
+    <mat-paginator [disabled]="this.isChecked" [pageSize]="this.isChecked?this.initialData.length+1:5"
+        [pageSizeOptions]="[this.initialData.length+1]" showFirstLastButtons sticky></mat-paginator>
+
+
+</div>
+ -->
+
+
+
+
+
+<!-- Version1 -->
+
+<!-- <mat-table #table [dataSource]="dataSourceMat" matSort>
+    <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay ; let i = index;">
+        <span *ngIf="i === 0">
+            <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null;disabledbtndelete();"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row" (click)="selection.toggle(row);disabledbtndelete();"
+                style="height: 100%;;width: 100%;">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </mat-cell>
+        </span>
+        <span *ngIf="i !== 0">
+
+            <mat-header-cell *matHeaderCellDef>
+                <div *ngIf="column!='select'" mat-sort-header>
+                    {{gettype(column).label}}
+                </div>
+
+            </mat-header-cell>
+
+            <mat-cell *matCellDef="let element">
+                <div *ngIf="column!='select'" style="cursor: pointer;">
+                    <div *ngIf="getEditColumn(column)">
+                        <ng-container *ngIf="element[column]" class="borderColor">
+                            <div [satPopoverAnchor]="p" (click)="p.open()">{{element[column]}}</div>
+                        </ng-container>
+                        <span [satPopoverAnchor]="p" (click)="p.open()" class="add-comment" *ngIf="!element[column]">
+                            <div style="padding:10px;"></div>
+                        </span>
+                        <sat-popover #p hasBackdrop xAlign="start" yAlign="start" (opened)="Openinline_edit()"
+                            (closed)="update(column,element, $event)">
+                            <inline-edit *ngIf="this.closeopenInlineEdit" [field]="gettype(column)"
+                                [label]="gettype(column).label" [typee]="gettype(column).inputType"
+                                [value]="element[column]">
+                            </inline-edit>
+                        </sat-popover>
+                    </div>
+                    <div *ngIf="!getEditColumn(column)">
+                        <ng-container *ngIf="element[column]">
+                            <div>{{element[column]}}</div>
+                        </ng-container>
+                    </div>
+
+                </div>
+            </mat-cell>
+        </span>
+        <mat-footer-cell *matFooterCellDef style="justify-content: center;">
+            <div>
+                <button *ngIf="column=='select'" mat-mini-fab [disabled]="btncreate" (click)="CreateNew()"
+                    aria-label="Example icon button with a home icon">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <button *ngIf="column=='select'" mat-mini-fab [disabled]="btndelete" (click)="deleteSelect()"
+                    aria-label="Example icon button with a home icon">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <p *ngIf="column=='select'">
+                    <span style="color: red;">{{this.chainedeValidation}}</span>
+                </p>
+
+            </div>
+
+        </mat-footer-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="columnsToDisplay;sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+    <mat-footer-row *matFooterRowDef="columnsToDisplay;sticky: true"></mat-footer-row>
+</mat-table> -->

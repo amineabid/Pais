@@ -1,0 +1,368 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Config } from 'src/model/config';
+import { Indemnite } from 'src/model/indemnite';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class IndemniteService {
+
+  private header = new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': 'true' });
+
+
+  private baseUrl = Config.getIndemite;
+  public indemnite: Indemnite;
+  constructor(public http: HttpClient) {
+    // this.ip = this.http.get("http://api.ipify.org/?format=json");
+  }
+
+  async getIndemnite(id: number): Promise<Observable<any>> {
+    return (await this.http.get<any>(`${this.baseUrl}` + '/' + `${id}`, { headers: this.header }));
+
+  }
+
+  async createIndemnite(conv: any): Promise<Observable<any>> {
+    return await this.http.post<any>(`${this.baseUrl}` + '', conv, { headers: this.header });
+  }
+
+  async updateIndemnite(id: number, value: any): Promise<Observable<any>> {
+    let params = new HttpParams()
+      .set('username', "")
+      .set('password', "");
+    return await this.http.post<any>(`${this.baseUrl}` + '/' + `${id}`, value, { headers: this.header });
+  }
+
+  deleteIndemnite(id: number): Observable<Indemnite> {
+    // let value: any;
+    // this.http.request('delete', `${this.baseUrl}` + '/convention/delete',  { body: value, responseType: 'json', headers: this.header });
+    return this.http.delete<Indemnite>(`${this.baseUrl}` + '/' + `${id}`, { responseType: 'json', headers: this.header });
+  }
+
+  getIndemniteList(): Observable<Indemnite[]> {
+    return this.http.post<Indemnite[]>(`${this.baseUrl}` + '/list', { headers: this.header });
+  }
+
+  static filedIndemnite() {
+    let fildesConfig = [];
+    interface IMyTable extends Indemnite { };
+    type MyTablePropsArray = Array<keyof IMyTable>;
+    const propsArray: MyTablePropsArray = Object.keys(new Indemnite()) as MyTablePropsArray;
+    propsArray.forEach(element => {
+      if (element == "Rappel_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "number",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "abrev_ind") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "action_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "avten_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: " ",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "cal_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "cod_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "codcn_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "cong_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "cotisable_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "cptcpt_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "dateAction_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "lib_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "mt_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "mt_INDAV") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "mtbase_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "plaf_ind") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "pour_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "pre_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "rsusr_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "sens_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "ste_ind") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "txcnss_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "txpatcnss_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+      if (element == "usr_IND") {
+        fildesConfig.push(
+          {
+            type: "input",
+            label: "",
+            inputType: "text",
+            name: element,
+            validations: [],
+            column_show: true,
+            showpopover: false,
+          }
+        );
+      }
+    });
+    return fildesConfig;
+  }
+}

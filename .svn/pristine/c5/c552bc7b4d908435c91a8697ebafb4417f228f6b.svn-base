@@ -1,0 +1,36 @@
+<!-- <button mat-button [matMenuTriggerFor]="afterMenu">After</button>
+<mat-menu #afterMenu="matMenu" xPosition="after">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+</mat-menu>
+<button mat-button [matMenuTriggerFor]="beforeMenu">Before</button>
+<mat-menu #beforeMenu="matMenu" xPosition="before">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>style="float: right;"
+    style="background-color:rgba(17, 68, 118, 0.9)"
+</mat-menu> -->
+<mat-toolbar  class="example-toolbar" >
+    <button mat-icon-button class="example-icon" (click)='onClickbtnMenu()' aria-label="Example icon-button with menu icon">
+        <mat-icon>{{iconmenu}}</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <button mat-button class="example-button" [routerLink]="['/admin']" routerLinkActive="router-link-active"
+        aria-label="Example icon-button with heart icon">
+        Paie
+    </button>
+    <span class="example-spacer"></span>
+    <button mat-button class="example-button" [routerLink]="['']" routerLinkActive="router-link-active"
+        aria-label="Example icon-button with heart icon">
+        Déconnexion
+    </button>
+<!-- <button mat-button class="example-button"  [routerLink]="['']" routerLinkActive="router-link-active"
+    aria-label="Example icon-button with heart icon">
+    Déconnexion
+</button>
+<button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>favorite</mat-icon>
+</button> -->
+
+
+
+</mat-toolbar>

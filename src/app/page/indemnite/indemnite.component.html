@@ -1,0 +1,584 @@
+
+            <!-- <div class="card m-3">
+                <h5 class="card-header">EnTete</h5>
+                <div class="card-body">
+                    <div ngbRadioGroup class="btn-group btn-group-toggle" name="radioBasic">
+                        <label ngbButtonLabel class="btn btn-outline-info" [ngClass]="{'active': activemodifer}">
+                            <input type="radio" ngbButton name="options" id="modifier" disabled> Modifier
+                        </label>
+                        <label ngbButtonLabel class="btn btn-outline-info" [ngClass]="{'active': activeajouter}">
+                            <input ngbButton type="radio" name="options" id="ajouter" disabled> Ajouter
+                        </label>
+                    </div>
+                    <form [formGroup]="form.get('Entete')" (ngSubmit)="onSubmitEnTete()">
+                        <div class="form-row">
+                            <div class="form-group" [ngClass]="{ 'form-check': field.inputType=='checkbox' }" *ngFor="let field of this.fildesConfig;let i=index">
+                                <input #input class="" [formControlName]="field.name" placeholder="{{field.label}}"
+                                    name="{{field.name}}" 
+                                    [type]="field.inputType"
+                                    id="{{field.name}}"
+                                    [ngClass]="{ 'form-control':field.inputType!='checkbox', 'form-check-input': field.inputType=='checkbox','is-invalid':  form.get('Entete').get(field.name).errors }"
+                                    (keyup)='OpenHelp($event)' (change)='OpenHelpOnCHange($event)'
+                                    (click)='OpenHelpOnClick($event)' [autofocus]="i===0" autocomplete="off">
+                                <label [ngClass]="{ 'form-check-label': field.inputType=='checkbox' }">{{field.label}}</label>
+
+                                <ng-container *ngFor="let validation of field.validations;">
+                                    <div *ngIf=" form.get('Entete').get(field.name).errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="form.get('Entete').get(field.name).hasError(validation.name)">
+                                            {{validation.message}}
+                                        </div>
+                                    </div>
+        
+                                </ng-container>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="text-right">
+                            <button mat-stroked-button class="btn btn-outline-primary mr-1">Ajouter</button>
+                            <button mat-stroked-button class="btn btn-outline-danger" type="reset"
+                                (click)="onReset()">Réinstaller</button>
+                        </div>
+                    </form>
+                </div>
+            </div> -->
+            <!-- <div class="form-group form-check">
+                                                <input type="checkbox" formControlName="acceptTerms" id="acceptTerms" class="form-check-input"
+                                                    [ngClass]="{ 'is-invalid':  f.acceptTerms.errors }" />
+                                                <label for="acceptTerms" class="form-check-label">Accept Terms & Conditions</label>
+                                                <div *ngIf=" f.acceptTerms.errors" class="invalid-feedback">Accept Ts & Cs is required</div>
+                                            </div> -->
+<!-- <app-table-popover-simple 
+                            *ngIf="this.showTablePopoverSimple" 
+                            [listdatasourcee]="this.dataPopoverSimple"
+                            [fildesConfigg]="this.fildesConfigPopoverSimple" 
+                            [listdatafiltred]="this.dataFiltredPopoverSimple"
+                            (ifClickElement)="OnGetElementTablePopoOverSimple($event)">
+                        </app-table-popover-simple> -->
+<!-- <div *ngIf="gettype(column).t==true" class="input-group-append">
+    <span class="input-group-text" (click)="onClickInput(element,column)">^</span>
+</div> -->
+
+<!-- *ngFor="let field of this.fildesConfig.filter(x=>x.inputType!='checkbox');let i=index" -->
+
+<!-- <div class="card m-3">
+    <h5 class="card-header">Angular 8 Reactive Form Validation</h5>
+    <div class="card-body">
+        <div ngbRadioGroup class="btn-group btn-group-toggle" name="radioBasic">
+            <label ngbButtonLabel class="btn btn-outline-info" [ngClass]="{'active': activemodifer}">
+                <input type="radio" ngbButton name="options" id="modifier" disabled> Modifier
+            </label>
+            <label ngbButtonLabel class="btn btn-outline-info" [ngClass]="{'active': activeajouter}">
+                <input ngbButton type="radio" name="options" id="ajouter" disabled> Ajouter
+            </label>
+        </div>
+        <form [formGroup]="form.get('Entete')" (ngSubmit)="onSubmitEnTete()">
+            <div class="form-row" >
+                    <div class="form-group col-3"  *ngFor="let field of filterInputNotChecked" >
+                        <label [ngClass]="{ 'form-check-label': field.inputType=='checkbox' }">{{field.label}}</label>
+                        <input #input class="" [formControlName]="field.name" placeholder="{{field.label}}" name="{{field.name}}"
+                            [type]="field.inputType" id="{{field.name}}"
+                            [ngClass]="{ 'form-control':field.inputType!='checkbox', 'form-check-input': field.inputType=='checkbox','is-invalid':  form.get('Entete').get(field.name).errors }"
+                            (keyup)='OpenHelp($event)' 
+                            (change)='OpenHelpOnCHange($event)' 
+                            (click)='OpenHelpOnClick($event)'
+                            [autofocus]="i===0" autocomplete="off">
+                        <ng-container *ngFor="let validation of field.validations;">
+                            <div *ngIf=" form.get('Entete').get(field.name).errors" class="invalid-feedback">
+                                <div *ngIf="form.get('Entete').get(field.name).hasError(validation.name)">
+                                    {{validation.message}}
+                                </div>
+                            </div>
+                        </ng-container>
+                        <p *ngIf="field.t">
+                            {{ field.table[0].data | json }}
+                        </p>
+                        
+                        <app-table-popover-simple 
+                            *ngIf="field.t" 
+                            [listdatasourcee]="field.table[0].data"
+                            [fildesConfigg]="field.table[0].displayedColumns[0].name" 
+                            [listdatafiltred]="dataFiltredPopoverSimple"
+                            (ifClickElement)="OnGetElementTablePopoOverSimple($event)">
+                        </app-table-popover-simple>
+                    </div>
+            </div>
+            <div class="form-group form-check-inline"  *ngFor="let field of filterInputChecked">
+                <input type="checkbox" formControlName="{{field.name}}"  class="form-check-input"
+                    [ngClass]="{ 'is-invalid':  form.get('Entete').get(field.name).errors }" />
+                <label for="{{field.name}}" class="form-check-label">{{field.label}}</label>
+                <ng-container *ngFor="let validation of field.validations;">
+                    <div *ngIf=" form.get('Entete').get(field.name).errors" class="invalid-feedback">
+                        <div *ngIf="form.get('Entete').get(field.name).hasError(validation.name)">
+                            {{validation.message}}
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary mr-1">Register</button>
+                <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div> -->
+
+
+
+<!-- main app container -->
+<div class="card m-3">
+    <h5 class="card-header">Indemnite</h5>
+    <div class="card-body">
+        <div class="btn-group btn-group-toggle" name="radioBasic">
+            <label class="btn btn-outline-info" [ngClass]="{'active': activemodifer }">
+                <input type="radio" name="options" id="modifier" disabled> Modifier
+            </label>
+            <label class="btn btn-outline-info" [ngClass]="{'active': activeajouter }">
+                <input type="radio" name="options" id="ajouter" disabled> Ajouter
+            </label>
+        </div>
+        <form [formGroup]="form.get('Entete')" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmitEnTete()">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>Code</label>
+                    <div class="input-group mb-3">
+                        <input type="number" formControlName="cod_IND"
+                            name="cod_IND"
+                            class="form-control"
+                            focus
+                            [ngClass]="{ 'is-invalid':  form.get('Entete').get('cod_IND').errors }"
+                            (keyup)='keyupcod_IND($event)' 
+                            (change)='Changecod_IND($event)'
+                            (click)='Clickcod_IND($event)'
+                            (focus)="Focuscod_IND($event)"
+                            (focusout)="Focusoutcod_IND($event)"
+                            />
+                            <div class="input-group-append">
+                                <span class="input-group-text material-icons" (click)="Indemnite.toggle()" [attr.aria-expanded]="!isCollapsedIndemnite"
+                                    aria-controls="collapseExample">
+                                        {{isCollapsedIndemnite==false? 'expand_more':'expand_less'}} 
+                                </span>
+                            </div>
+                        <ng-container *ngFor="let validation of gettype('cod_IND').validations;">
+                            <!-- *ngIf="form.get('Entete').get('cod_IND').errors" -->
+                            <!-- *ngIf="form.get('Entete').get('cod_IND').hasError(validation.name)" -->
+                                <div *ngIf="form.get('Entete').get('cod_IND').hasError(validation.name)" class="invalid-feedback">
+                                    {{validation.message}}
+                                </div>
+                        </ng-container>
+                        
+                    </div>
+                    
+                </div>
+                <div class="form-group col">
+                    <label>Libellé</label>
+                    <!-- (focus)="Focuscod_IND($event)"
+                    (focusout)="Focusoutcod_IND($event)" -->
+                    <input type="text" formControlName="lib_IND" class="form-control"
+                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('lib_IND').errors }"
+                            name="lib_IND"
+                            (keyup)='keyuplib_IND($event)' 
+                            (change)='Changelib_IND($event)'
+                            (click)='Clicklib_IND($event)'
+                            (focus)="Focuscod_IND($event)"
+                            (focusout)="Focusoutcod_IND($event)"
+                            ngbTooltip="if you want to search with libéllé you must to empty input code "
+                        />
+                    <ng-container *ngFor="let validation of gettype('lib_IND').validations;">
+                        <div *ngIf="form.get('Entete').get('lib_IND').hasError(validation.name)" 
+                        class="invalid-feedback">
+                                {{validation.message}}
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="form-group col">
+                    <label>Abreviation</label>
+                    <input type="text" formControlName="abrev_ind" class="form-control"
+                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('abrev_ind').errors }"
+                            name="abrev_ind"
+                            (keyup)='keyupabrev_ind($event)' 
+                            (change)='Changeabrev_ind($event)'
+                            (click)='Clickabrev_ind($event)'
+                        />
+                    <ng-container *ngFor="let validation of gettype('abrev_ind').validations;">
+                        <div *ngIf="form.get('Entete').get('abrev_ind').hasError(validation.name)" class="invalid-feedback">
+                                {{validation.message}}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="form-row" #Indemnite="ngbCollapse" [(ngbCollapse)]="isCollapsedIndemnite">
+                <div class="form-group col">
+                    <app-table-popover-simple 
+                        *ngIf="showTableIndPopoverSimple" 
+                        [listdatasourcee]="gettype('cod_IND').table[0].data"
+                        [fildesConfigg]="gettype('cod_IND').table[0].displayedColumns[0].name"
+                        [listdatafiltred]="dataFiltredIndemnite" 
+                        (ifClickElement)="OnGetElementIndemnite($event)">
+                    </app-table-popover-simple>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group col">
+                        <label>Code Mode Calcul</label>
+                        <div class="input-group mb-3">
+                            <input type="number" formControlName="cal_IND" class="form-control"
+                                [ngClass]="{ 'is-invalid':  form.get('Entete').get('cal_IND').errors }"
+                                name="cod_MC"
+                                (keyup)='keyupcal_IND($event)' 
+                                (change)='Changecal_IND($event)'
+                                (click)='Clickcal_IND($event)'
+                                (focus)="isCollapsedMOD_Calcule=false"
+                                (focusout)="isCollapsedMOD_Calcule=true"
+                                />
+                            <div class="input-group-append">
+                                <span class="input-group-text material-icons" (click)="MOD_Calcule.toggle()" [attr.aria-expanded]="!isCollapsedMOD_Calcule"
+                                    aria-controls="collapseExample">
+                                    {{isCollapsedMOD_Calcule==false? 'expand_more':'expand_less'}}
+                                </span>
+                            </div>
+                            <ng-container *ngFor="let validation of gettype('cal_IND').validations;">
+                                <div *ngIf="form.get('Entete').get('cal_IND').hasError(validation.name)" class="invalid-feedback">
+                                    {{validation.message}}
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="form-group col" #MOD_Calcule="ngbCollapse" [(ngbCollapse)]="isCollapsedMOD_Calcule">
+                        <app-table-popover-simple *ngIf="showTablemodcalPopoverSimple" 
+                            [listdatasourcee]="gettype('cal_IND').table[0].data"
+                            [fildesConfigg]="gettype('cal_IND').table[0].displayedColumns[0].name" 
+                            [listdatafiltred]="dataFiltredcal_IND"
+                            (ifClickElement)="OnGetElementcal_IND($event)">
+                        </app-table-popover-simple>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group col">
+                        <label>Code Mode Cnss</label>
+                        <div class="input-group mb-3">
+                            <input type="number" formControlName="codcn_IND" class="form-control"
+                                [ngClass]="{ 'is-invalid':  form.get('Entete').get('codcn_IND').errors }"
+                                name="cod_CNSS"
+                                (keyup)='keyupcodcn_IND($event)' 
+                                (change)='Changecodcn_IND($event)'
+                                (click)='Clickcodcn_IND($event)'
+                                (focus)="isCollapsedMOD_CNSSS=false"
+                                (focusout)="isCollapsedMOD_CNSSS=true"
+                                />
+                            <div class="input-group-append">
+                                <span class="input-group-text material-icons" (click)="MOD_CNSSS.toggle()"
+                                    [attr.aria-expanded]="!isCollapsedMOD_CNSSS" aria-controls="collapseExample">
+                                    
+                                    {{isCollapsedMOD_CNSSS==false? 'expand_more':'expand_less'}}
+                                </span>
+                            </div>
+                            <ng-container *ngFor="let validation of gettype('codcn_IND').validations;">
+                                <div *ngIf="form.get('Entete').get('codcn_IND').hasError(validation.name)" class="invalid-feedback">
+                                    {{validation.message}}
+                                </div>
+                            </ng-container>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="form-group col" #MOD_CNSSS="ngbCollapse" [(ngbCollapse)]="isCollapsedMOD_CNSSS">
+                        <app-table-popover-simple *ngIf="showTablemodcnssPopoverSimple" [listdatasourcee]="gettype('codcn_IND').table[0].data"
+                            [fildesConfigg]="gettype('codcn_IND').table[0].displayedColumns[0].name"
+                            [listdatafiltred]="dataFiltredcodcn_IND" (ifClickElement)="OnGetElementcodcn_IND($event)">
+                        </app-table-popover-simple>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group col">
+                        <label>Code Compte Comptable</label>
+                        <div class="input-group mb-3">
+                            <input type="number" formControlName="cptcpt_IND" class="form-control"
+                                [ngClass]="{ 'is-invalid':  form.get('Entete').get('cptcpt_IND').errors }"
+                                name="compt_compte"
+                                (keyup)='keyupcptcpt_IND($event)' 
+                                (change)='Changecptcpt_IND($event)'
+                                (click)='Clickcptcpt_IND($event)'
+                                (focus)="isCollapsedCompte_comptable=false"
+                                (focusout)="isCollapsedCompte_comptable=true"
+                                />
+                            <div class="input-group-append">
+                                <span class="input-group-text material-icons" (click)="Compte_comptable.toggle()" [attr.aria-expanded]="!isCollapsedCompte_comptable"
+                                    aria-controls="collapseExample">
+                                    {{isCollapsedCompte_comptable==false? 'expand_more':'expand_less'}}
+                                </span>
+                            </div>
+                            <ng-container *ngFor="let validation of gettype('cptcpt_IND').validations;">
+                                <div *ngIf="form.get('Entete').get('cptcpt_IND').hasError(validation.name)" class="invalid-feedback">
+                                    {{validation.message}}
+                                </div>
+                            </ng-container>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group col" #Compte_comptable="ngbCollapse" [(ngbCollapse)]="isCollapsedCompte_comptable">
+                        <app-table-popover-simple *ngIf="showTablecptcptPopoverSimple" [listdatasourcee]="gettype('cptcpt_IND').table[0].data"
+                            [fildesConfigg]="gettype('cptcpt_IND').table[0].displayedColumns[0].name"
+                            [listdatafiltred]="dataFiltredcptcpt_IND" (ifClickElement)="OnGetElementcptcpt_IND($event)">
+                        </app-table-popover-simple>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <fieldset class="col-md-12">
+                                <legend>Indemnute Convetionnel (impo)</legend>
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <fieldset class="col-md-4">
+                                                <legend>
+                                                    Congé 
+                                                </legend>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="cong_IND" id="cong_IND1" value="Oui" (change)="form.get('Entete').get('cong_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('cong_IND').value=='Oui'?true:false" >
+                                                    <label class="form-check-label" for="cong_IND1">
+                                                        Oui
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="cong_IND" id="cong_IND2" value="Non" (change)="form.get('Entete').get('cong_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('cong_IND').value=='Non'?true:false" >
+                                                    <label class="form-check-label" for="cong_IND2">
+                                                        Non
+                                                    </label>
+                                                </div>
+                                                
+                                            </fieldset>
+                                            <fieldset class="col-md-4">
+                                                <legend>
+                                                    Sence
+                                                </legend>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="sens_IND" id="sens_IND1" value="d" (change)="form.get('Entete').get('sens_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('sens_IND').value=='d' ?true:false">
+                                                    <label class="form-check-label" for="sens_IND1">
+                                                        Débit
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="sens_IND" id="sens_IND2" value="c" (change)="form.get('Entete').get('sens_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('sens_IND').value=='c' ?true:false">
+                                                    <label class="form-check-label" for="sens_IND2">
+                                                        Crédit
+                                                    </label>
+                                                </div>
+                                                
+                                            </fieldset>
+                                            <fieldset class="col-md-4">
+                                                <legend>
+                                                    Convetionelle
+                                                </legend>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="pre_IND" id="pre_IND1" value="Oui" (change)="form.get('Entete').get('pre_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('pre_IND').value=='Oui'?true:false">
+                                                    <label class="form-check-label" for="pre_IND1">
+                                                        Oui
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="pre_IND" id="pre_IND2" value="Non" (change)="form.get('Entete').get('pre_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('pre_IND').value=='Non'?true:false">
+                                                    <label class="form-check-label" for="pre_IND2">
+                                                        Non
+                                                    </label>
+                                                </div>
+                                                
+                                            </fieldset>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <fieldset class="col-md-4">
+                                                <legend>
+                                                    Impot
+                                                </legend>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="avten_IND" id="avten_IND1" value="Oui" (change)="form.get('Entete').get('avten_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('avten_IND').value=='Oui'?true:false">
+                                                    <label class="form-check-label" for="avten_IND1">
+                                                        Oui
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="avten_IND" id="avten_IND2" value="Non" (change)="form.get('Entete').get('avten_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('avten_IND').value=='Non'?true:false">
+                                                    <label class="form-check-label" for="avten_IND2">
+                                                        Non
+                                                    </label>
+                                                </div>
+                                            
+                                            </fieldset>
+                                            <fieldset class="col-md-4">
+                                                <legend>
+                                                    Cotisation
+                                                </legend>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="cotisable_IND" id="cotisable_IND1" value="Oui" (change)="form.get('Entete').get('cotisable_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('cotisable_IND').value=='Oui'?true:false">
+                                                    <label class="form-check-label" for="cotisable_IND1">
+                                                        Oui
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="cotisable_IND" id="cotisable_IND2" value="Non" (change)="form.get('Entete').get('cotisable_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('cotisable_IND').value=='Non'?true:false">
+                                                    <label class="form-check-label" for="cotisable_IND2">
+                                                        Non
+                                                    </label>
+                                                </div>
+                                            
+                                            </fieldset>
+                                            <fieldset class="col-md-4">
+                                                <legend>
+                                                    Rappel
+                                                </legend>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="rappel_IND" id="rappel_IND1" value="Oui" (change)="form.get('Entete').get('rappel_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('rappel_IND').value=='Oui'?true:false">
+                                                    <label class="form-check-label" for="rappel_IND1">
+                                                        Oui
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="rappel_IND" id="rappel_IND2" value="Non" (change)="form.get('Entete').get('rappel_IND').setValue($event.target.value)" [checked]="form.get('Entete').get('rappel_IND').value=='Non'?true:false">
+                                                    <label class="form-check-label" for="rappel_IND2">
+                                                        Non
+                                                    </label>
+                                                </div>
+                                            
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <fieldset class="col-md-12">
+                                <legend>Montant Prime / Plafont Prime</legend>
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" >Pourcentage %</span>
+                                                    </div>
+                                                    <input type="number" formControlName="pour_IND" class="form-control"
+                                                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('pour_IND').errors }" />
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let validation of gettype('pour_IND').validations;">
+                                                    <div *ngIf=" form.get('Entete').get('pour_IND').errors" class="invalid-feedback">
+                                                        <div *ngIf="form.get('Entete').get('pour_IND').hasError(validation.name)">
+                                                            {{validation.message}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" >Montant</span>
+                                                    </div>
+                                                    <input type="number" formControlName="mt_IND" class="form-control"
+                                                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('mt_IND').errors }" />
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let validation of gettype('mt_IND').validations;">
+                                                    <div *ngIf=" form.get('Entete').get('mt_IND').errors" class="invalid-feedback">
+                                                        <div *ngIf="form.get('Entete').get('mt_IND').hasError(validation.name)">
+                                                            {{validation.message}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" >palfond Ind</span>
+                                                    </div>
+                                                    <input type="number" formControlName="plaf_ind" class="form-control"
+                                                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('plaf_ind').errors }" />
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let validation of gettype('plaf_ind').validations;">
+                                                    <div *ngIf=" form.get('Entete').get('plaf_ind').errors" class="invalid-feedback">
+                                                        <div *ngIf="form.get('Entete').get('plaf_ind').hasError(validation.name)">
+                                                            {{validation.message}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" >Base Ind</span>
+                                                    </div>
+                                                    <input type="number" formControlName="mtbase_IND" class="form-control"
+                                                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('mtbase_IND').errors }" />
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let validation of gettype('mtbase_IND').validations;">
+                                                    <div *ngIf=" form.get('Entete').get('mtbase_IND').errors" class="invalid-feedback">
+                                                        <div *ngIf="form.get('Entete').get('mtbase_IND').hasError(validation.name)">
+                                                            {{validation.message}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" >Taux Cnss</span>
+                                                    </div>
+                                                    <input type="number" formControlName="txcnss_IND" class="form-control"
+                                                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('txcnss_IND').errors }" />
+                                                </div>
+                                                <ng-container *ngFor="let validation of gettype('txcnss_IND').validations;">
+                                                    <div *ngIf=" form.get('Entete').get('txcnss_IND').errors" class="invalid-feedback">
+                                                        <div *ngIf="form.get('Entete').get('txcnss_IND').hasError(validation.name)">
+                                                            {{validation.message}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" >Taux Patronal</span>
+                                                    </div>
+                                                    <input type="number" formControlName="txpatcnss_IND" class="form-control"
+                                                        [ngClass]="{ 'is-invalid':  form.get('Entete').get('txpatcnss_IND').errors }" />
+                                                </div>
+                                                <ng-container *ngFor="let validation of gettype('txpatcnss_IND').validations;">
+                                                    <div *ngIf=" form.get('Entete').get('txpatcnss_IND').errors" class="invalid-feedback">
+                                                        <div *ngIf="form.get('Entete').get('txpatcnss_IND').hasError(validation.name)">
+                                                            {{validation.message}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                
+                <button class="btn btn-outline-success mr-1" ngbTooltip="Valider" [disabled]="form.get('Entete').invalid">Valider</button>
+                <button class="btn btn-outline-danger" type="reset" ngbTooltip="Réinstaller" (click)="onReset()">Réinstaller</button>
+            </div>
+        </form>
+    </div>
+</div>
